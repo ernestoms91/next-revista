@@ -15,6 +15,8 @@ const config: Config = {
       },
       colors: {
         'gris-oscuro':'#474747',
+        'gris-claro':'#CBCBCB',
+        'azul-claro':'#319FD8'
       }
     },
   },
