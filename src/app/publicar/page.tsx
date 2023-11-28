@@ -1,5 +1,5 @@
 "use client";
-import { Field, Formik } from "formik";
+import { ErrorMessage, Field, Formik } from "formik";
 import * as Yup from "yup";
 import { useRef, useState } from "react";
 import Image from "next/image";
@@ -12,6 +12,7 @@ import { MyDateInput2 } from "../ui/Form/MyDateInput2";
 import { MyDateInput } from "../ui/Form/MyDateInput";
 import Editor from "../ui/Editor/Editor";
 import PreviewImage from "../ui/Form/PreviewImage";
+import JoditEditor from "../ui/Editor/JoditEditor";
 
 interface MyFormValues {
   image: null;
@@ -22,8 +23,9 @@ interface MyFormValues {
   resumen: string;
   etiquetas: Array<string>;
   secciones: Array<string>;
-  palabrasclaves: Array<string>;
-  texto: string;
+  palabrasclaves: string;
+  contenido: string;
+  titular: string;
   cita: string;
   enlace: string;
   fecha: string;
@@ -38,15 +40,16 @@ const initialValues: MyFormValues = {
   resumen: "",
   etiquetas: [],
   secciones: [],
-  palabrasclaves: [],
-  texto: "",
+  palabrasclaves: "",
+  contenido: "",
+  titular: "",
   cita: "",
   enlace: "",
   fecha: "",
 };
 
 export default function EditorPage() {
-  const imageRef = useRef(null);
+  const imageRef = useRef<HTMLInputElement | null>(null);
 
   return (
     <>
@@ -58,6 +61,8 @@ export default function EditorPage() {
           enableReinitialize={true}
           onSubmit={async (values) => {
             console.log(values);
+            // TODO subir la imagen al backend
+            // TODO post la info
           }}
         >
           {({
@@ -82,12 +87,18 @@ export default function EditorPage() {
                   type="file"
                   hidden
                   onChange={(event) => {
-                    setFieldValue("image", event.target.files[0]);
+                    if (event.target.files) {
+                      setFieldValue("image", event.target.files[0]);
+                    }
                   }}
                 />
                 {values.image && <PreviewImage file={values.image} />}
                 {!values.image && (
-                  <div className="bg-gris-claro  rounded-lg  p-40 flex items-center justify-center">
+                  <div
+                    className={`bg-gris-claro  rounded-lg  p-40 flex items-center justify-center  border-2 ${
+                      errors.image && touched.image ? "border-rose-600" : ""
+                    }`}
+                  >
                     <Image
                       src={"/vector.svg"}
                       alt="preview"
@@ -96,10 +107,18 @@ export default function EditorPage() {
                     />
                   </div>
                 )}
+                {errors.image && touched.image && (
+                  <h1 className="text-red-600 text-center text-xs italic  my-1">
+                    {errors.image}
+                  </h1>
+                )}
                 <button
                   className="bg-azul-claro p-2 flex justify-center items-center rounded my-2"
+                  type="button"
                   onClick={() => {
-                    imageRef.current.click();
+                    if (imageRef.current) {
+                      imageRef.current.click();
+                    }
                   }}
                 >
                   Upload
@@ -120,8 +139,10 @@ export default function EditorPage() {
                 name="titulo"
                 classNameLabel="font-bold text-2xl  block"
                 label="Añadir título"
-                classNameInput=" bg-gris-claro block p-4  rounded-l-full rounded-t-full w-full"
-                placeholder="Escriba su título aquí (opcional)"
+                classNameInput={`bg-gris-claro block p-4 rounded-l-full rounded-t-full w-full border-2 ${
+                  errors.titulo && touched.titulo ? "border-rose-600" : ""
+                }`}
+                placeholder="Escriba su título aquí"
               />
 
               {/* Añadir autor o autores */}
@@ -129,27 +150,32 @@ export default function EditorPage() {
                 name="autor"
                 classNameLabel="font-bold text-2xl  block"
                 label="Añadir autor o autores"
-                classNameInput=" bg-gris-claro block p-4  rounded-l-full rounded-t-full w-full"
+                classNameInput={`bg-gris-claro block p-4  rounded-l-full rounded-t-full w-full border-2 ${
+                  errors.autor && touched.autor ? "border-rose-600" : ""
+                }`}
                 placeholder="Escriba el nombre del autor aquí"
               />
 
               {/* Añadir enunciado  */}
               <MyTextarea
-                maxlength={160}
+                maxLength={160}
                 name="enunciado"
                 classNameLabel="font-bold text-2xl  block"
                 label="Añadir enunciado"
-                classNameInput=" bg-gris-claro  rounded-lg block p-4   w-full"
+                classNameInput={`bg-gris-claro  rounded-lg block p-4   w-full border-2 ${
+                  errors.enunciado && touched.enunciado ? "border-rose-600" : ""
+                }`}
                 placeholder="Escriba su enunciado aquí con no mas de 160 caracteres"
               />
 
               {/* Añadir resumen  */}
               <MyTextarea
-                maxlength={150}
                 name="resumen"
                 classNameLabel="font-bold text-2xl  block"
                 label="Añadir resumen"
-                classNameInput=" bg-gris-claro  rounded-lg block p-4   w-full"
+                classNameInput={`bg-gris-claro  rounded-lg block p-4   w-full border-2 ${
+                  errors.resumen && touched.resumen ? "border-rose-600" : ""
+                }`}
                 placeholder="Escriba su resumen aquí con no mas de 150 palabras"
               />
 
@@ -158,7 +184,7 @@ export default function EditorPage() {
                 Etiqueta de nivel educativo
               </h1>
               <div
-                className={`flex  gap-4 ${
+                className={`flex  p-2  rounded-lg gap-4 ${
                   errors.etiquetas && touched.etiquetas
                     ? " border-2 border-rose-600"
                     : ""
@@ -176,11 +202,16 @@ export default function EditorPage() {
                   />
                 ))}
               </div>
+              {errors.etiquetas && touched.etiquetas && (
+                <h1 className="text-red-600 text-center text-xs italic  my-1">
+                  {errors.etiquetas}
+                </h1>
+              )}
 
               {/* Etiqueta de seccion*/}
               <h1 className="font-bold text-2xl my-2">Etiqueta de sección</h1>
               <div
-                className={`flex  gap-8 ${
+                className={`flex  gap-8  p-2  rounded-lg ${
                   errors.secciones && touched.secciones
                     ? " border-2 border-rose-600"
                     : ""
@@ -198,46 +229,70 @@ export default function EditorPage() {
                   />
                 ))}
               </div>
-
+              {errors.secciones && touched.secciones && (
+                <h1 className="text-red-600 text-center text-xs italic  my-1">
+                  {errors.secciones}
+                </h1>
+              )}
               {/* Añadir palabras claves  */}
               <MyTextarea
-                maxlength={160}
+                maxLength={160}
                 name="palabrasclaves"
                 classNameLabel="font-bold text-2xl  block"
                 label="Añadir palabras claves"
-                classNameInput=" bg-gris-claro  rounded-lg block p-4   w-full"
+                classNameInput={`bg-gris-claro  rounded-lg block p-4   w-full border-2 ${
+                  errors.palabrasclaves && touched.palabrasclaves
+                    ? "border-rose-600"
+                    : ""
+                }`}
                 placeholder="Palabras claves"
               />
 
-              {/* Añadir texto  */}
-              {/* <MyTextarea
-                maxlength={160}
-                name="texto"
-                classNameLabel="font-bold text-2xl  block"
-                label="Añadir texto"
-                classNameInput=" bg-gris-claro  rounded-lg block p-4   w-full"
-                placeholder="Escriba su texto aquí"
-              /> */}
-              <h1 className="font-bold text-2xl my-2">Añadir texto</h1>
-              <Editor />
+              {/* Añadir contenido  */}
+              <h1 className="font-bold text-2xl my-2">Añadir contenido</h1>
+
+              <div
+                className={` ${
+                  errors.contenido && touched.contenido
+                    ? " border-2 border-rose-600"
+                    : ""
+                }`}
+              >
+                <JoditEditor
+                  touched={touched}
+                  setTouched={setTouched}
+                  setFieldValue={setFieldValue}
+                  value={values.contenido}
+                  placeholder="Escriba el contenido de la publicación"
+                />
+              </div>
+              {errors.contenido && touched.contenido && (
+                <h1 className="text-red-600 text-center text-xs italic  my-1">
+                  {errors.contenido}
+                </h1>
+              )}
 
               {/* Añadir titular  */}
               <MyTextarea
-                maxlength={160}
+                maxLength={160}
                 name="titular"
                 classNameLabel="font-bold text-2xl  block"
                 label="Añadir titular"
-                classNameInput=" bg-gris-claro  rounded-lg block p-4   w-full"
+                classNameInput={`bg-gris-claro  rounded-lg block p-4   w-full border-2 ${
+                  errors.titular && touched.titular ? "border-rose-600" : ""
+                }`}
                 placeholder="Escriba el titular aquí"
               />
 
               {/* Añadir cita  */}
               <MyTextarea
-                maxlength={160}
+                maxLength={160}
                 name="cita"
                 classNameLabel="font-bold text-2xl  block"
                 label="Añadir cita"
-                classNameInput=" bg-gris-claro  rounded-lg block p-4   w-full"
+                classNameInput={`bg-gris-claro  rounded-lg block p-4   w-full border-2 ${
+                  errors.cita && touched.cita ? "border-rose-600" : ""
+                }`}
                 placeholder="Escriba la cita aquí"
               />
 
@@ -247,32 +302,34 @@ export default function EditorPage() {
                 name="enlace"
                 classNameLabel="font-bold text-2xl  block"
                 label="Añadir enlace"
-                classNameInput=" bg-gris-claro block p-4  rounded-l-full rounded-t-full w-full"
+                classNameInput={`bg-gris-claro block p-4  rounded-l-full rounded-t-full w-full border-2 ${
+                  errors.enlace && touched.enlace ? "border-rose-600" : ""
+                }`}
                 placeholder="Escriba el enlace"
               />
 
               {/* Fecha programada*/}
-              <MyDateInput2
+              {/* <MyDateInput2
                 type="datetime-local"
                 name="fecha"
                 label="Programar"
                 classNameLabel="font-bold text-2xl  block"
                 classNameInput=" bg-gris-claro block p-4  rounded-l-full rounded-t-full w-full"
-              />
+              /> */}
 
               {/*Botones salvar y publicar*/}
               <div className="flex gap-4 justify-end">
-                <button
+                {/* <button
                   type="submit"
                   className="  bg-gris-claro rounded-lg text-lg text-white px-8 py-2  "
                 >
                   Guardar
-                </button>
+                </button> */}
                 <button
                   type="submit"
                   className="  bg-azul-claro rounded-lg text-lg text-white px-8 py-2  "
                 >
-                  Publicar
+                  Guardar
                 </button>
               </div>
             </form>
