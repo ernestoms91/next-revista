@@ -22,6 +22,7 @@ const Podcast = () => {
                 descripcion={p.descripcion}
                 duracion={p.duracion}
                 fecha={p.fecha}
+                key={i}
               />
             );
           }
@@ -32,6 +33,7 @@ const Podcast = () => {
                 titulo={p.titulo}
                 descripcion={p.descripcion}
                 duracion={p.duracion}
+                key={i}
               />
             );
           }

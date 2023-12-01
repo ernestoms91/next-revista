@@ -4,7 +4,7 @@ import { informaciones } from "@/app/lib/home-data";
 
 const Publicaciones = () => {
   return (
-    <div className="grid gap-4 ">
+    <div className="grid gap-4 md:hidden ">
       <h1 className="font-bold text-2xl">Últimas publicaciones</h1>
       {informaciones &&
         informaciones.map((inf, i) => (
@@ -13,6 +13,7 @@ const Publicaciones = () => {
             imagen={inf.imagen}
             informacion={inf.informacion}
             autor={inf.autor}
+            key={i}
           />
         ))}
     </div>

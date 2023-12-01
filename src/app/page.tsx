@@ -5,11 +5,13 @@ import { informaciones } from "./lib/home-data";
 import Publicaciones from "./ui/home/Publicaciones";
 import Podcast from "./ui/home/Podcast";
 import Publicidad from "./ui/cards/Publicidad";
+import SliderComponent from './ui/home/SliderComponent';
 
 export default function Home() {
   return (
-    <>
-      <div className="bg-gris-claro p-8">
+    <div className=" ">
+      <div className="bg-gris-claro rounded-lg p-8 lg:bg-gris-card">
+        <SliderComponent />
         <Publicaciones />
       </div>
       <div className="bg-azul-azulito p-8">
@@ -21,6 +23,6 @@ export default function Home() {
       <div className="bg-gris-claro p-8">
         <Publicaciones />
       </div>
-    </>
+    </div>
   );
 }
