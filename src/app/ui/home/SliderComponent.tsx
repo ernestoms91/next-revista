@@ -39,19 +39,17 @@ const SliderComponent = () => {
     setCurrentIndex(newIndex);
   };
 
-  const goToSlide = (slideIndex:number) => {
+  const goToSlide = (slideIndex: number) => {
     setCurrentIndex(slideIndex);
   };
 
   useEffect(() => {
-    // Función para avanzar al siguiente slide después de 3 segundos
     const interval = setInterval(() => {
       nextSlide();
     }, 5000);
 
-    // Limpiar el intervalo cuando el componente se desmonte
     return () => clearInterval(interval);
-  }, [currentIndex]);
+  }, [currentIndex, nextSlide]);
 
   return (
     <div className="  w-full m-auto  px-4 relative group hidden md:block">
@@ -60,9 +58,7 @@ const SliderComponent = () => {
           backgroundImage: `url(${informaciones[currentIndex].imagen})`,
         }}
         className="w-full h-[350px] h-full rounded-2xl rounded-b-none bg-center bg-cover duration-500"
-      >
-        
-      </div>
+      ></div>
       <div id="20" className="bg-white static z-10 rounded-bl-3xl p-4">
         <h1 className="font-bold text-4xl text-left line-clamp-3 my-2">
           {informaciones[currentIndex].titulo}
@@ -106,7 +102,9 @@ const SliderComponent = () => {
           <div
             key={slideIndex}
             onClick={() => goToSlide(slideIndex)}
-            className={`text-2xl cursor-pointer  ${slideIndex === currentIndex ? "text-black" : "text-gray-300"} `}
+            className={`text-2xl cursor-pointer  ${
+              slideIndex === currentIndex ? "text-black" : "text-gray-300"
+            } `}
           >
             <RxDotFilled />
           </div>
