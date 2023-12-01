@@ -12,7 +12,7 @@ const Podcast = () => {
       {podcasts &&
         podcasts.map((p, i) => {
           if (i === 2) {
-            return <PodcastProximo imagen={p.imagen} titulo={p.titulo} />;
+            return <PodcastProximo imagen={p.imagen} titulo={p.titulo} key={i} />;
           }
           if (i === 1) {
             return (
