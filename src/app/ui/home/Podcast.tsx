@@ -7,8 +7,9 @@ import PodcastProximo from "../cards/PodcastProximo";
 
 const Podcast = () => {
   return (
-    <div className="grid gap-4 ">
-      <h1 className="font-bold text-2xl">Podcast</h1>
+    <div className="md:mx-5 ">
+      <h1 className="font-bold text-2xl md:my-5 md:text-3xl">Podcast</h1>
+      <div className="grid gap-4 lg:grid-cols-2 md:gap-10">
       {podcasts &&
         podcasts.map((p, i) => {
           if (i === 2) {
@@ -38,6 +39,7 @@ const Podcast = () => {
             );
           }
         })}
+        </div>
     </div>
   );
 };

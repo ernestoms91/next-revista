@@ -1,18 +1,15 @@
-"use client";
+'use client';
 import { ErrorMessage, Field, Formik } from "formik";
-import * as Yup from "yup";
-import { useRef, useState } from "react";
+import { useRef} from "react";
 import Image from "next/image";
 import { MyTextInput } from "../ui/Form/MyTextInput";
 import { MyTextarea } from "../ui/Form/MyTextarea";
 import { etiquetas, secciones } from "../lib/publicacion-data";
 import { MyCheckbox } from "../ui/Form/MyCheckbox";
 import { newInfoSchema } from "../lib/helpers/yupSchemaInfoForm";
-import { MyDateInput2 } from "../ui/Form/MyDateInput2";
-import { MyDateInput } from "../ui/Form/MyDateInput";
-import Editor from "../ui/Editor/Editor";
 import PreviewImage from "../ui/Form/PreviewImage";
-import JoditEditor from "../ui/Editor/JoditEditor";
+import JoditEditor from "../ui/Editor/Editor";
+import Editor from "../ui/Editor/Editor";
 
 interface MyFormValues {
   image: null;
@@ -258,13 +255,14 @@ export default function EditorPage() {
                     : ""
                 }`}
               >
-                <JoditEditor
+                {/* <Editor
                   touched={touched}
                   setTouched={setTouched}
                   setFieldValue={setFieldValue}
                   value={values.contenido}
                   placeholder="Escriba el contenido de la publicación"
-                />
+                /> */}
+                <Editor content={values.contenido} setContent={setFieldValue} />
               </div>
               {errors.contenido && touched.contenido && (
                 <h1 className="text-red-600 text-center text-xs italic  my-1">

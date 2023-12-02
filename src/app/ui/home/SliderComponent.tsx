@@ -57,9 +57,9 @@ const SliderComponent = () => {
         style={{
           backgroundImage: `url(${informaciones[currentIndex].imagen})`,
         }}
-        className="w-full h-[350px] h-full rounded-2xl rounded-b-none bg-center bg-cover duration-500"
+        className="w-full h-[350px] rounded-2xl rounded-b-none bg-center bg-cover duration-500"
       ></div>
-      <div id="20" className="bg-white static z-10 rounded-bl-3xl p-4">
+      <div id="20" className="bg-blanco-oscuro static z-10 rounded-bl-3xl p-4">
         <h1 className="font-bold text-4xl text-left line-clamp-3 my-2">
           {informaciones[currentIndex].titulo}
         </h1>

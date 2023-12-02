@@ -7,7 +7,7 @@ interface Iprop {
 
 const PodcastProximo = ({ imagen, titulo }: Iprop) => {
     return (
-      <div className="relative w-full">
+      <div className="relative w-full ">
         <Image
           src={imagen}
           alt="Picture of the author"
@@ -19,8 +19,8 @@ const PodcastProximo = ({ imagen, titulo }: Iprop) => {
         />
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center">
-            <h1 className="text-white">La próxima semana</h1>
-            <p className="text-azul-oscuro line-clamp-2">{titulo}</p>
+            <h1 className="text-white md:text-4xl">La próxima semana</h1>
+            <p className="text-azul-oscuro line-clamp-2 md:text-4xl md:text-white">{titulo}</p>
           </div>
         </div>
       </div>

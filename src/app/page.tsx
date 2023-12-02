@@ -10,11 +10,11 @@ import SliderComponent from './ui/home/SliderComponent';
 export default function Home() {
   return (
     <div className=" ">
-      <div className="bg-gris-claro rounded-lg p-8 lg:bg-gris-card">
+      <div className="bg-gris-claro rounded-lg p-8 lg:bg-white">
         <SliderComponent />
         <Publicaciones />
       </div>
-      <div className="bg-azul-azulito p-8">
+      <div className="bg-azul-azulito p-8 ">
         <Podcast />
       </div>
       <div className="bg-gris-home p-8">

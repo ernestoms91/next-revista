@@ -16,11 +16,13 @@ const config: Config = {
       colors: {
         'gris-oscuro':'#474747',
         'gris-claro':'#CBCBCB',
+        'gris-claro2':'#E5E5E5',
         'azul-claro':'#319FD8',
         'gris-home':'#9A9A9A',
         'gris-card':'#EBEBEB',
         'azul-azulito':'#319FD833',
         'azul-oscuro':'#4CA8EB',
+        'blanco-oscuro':'#F6F6F6',
 
       }
     },
