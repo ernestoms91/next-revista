@@ -8,8 +8,9 @@ import { etiquetas, secciones } from "../lib/publicacion-data";
 import { MyCheckbox } from "../ui/Form/MyCheckbox";
 import { newInfoSchema } from "../lib/helpers/yupSchemaInfoForm";
 import PreviewImage from "../ui/Form/PreviewImage";
-import JoditEditor from "../ui/Editor/Editor";
-import Editor from "../ui/Editor/Editor";
+import JoditEditor from "../ui/Editor/Jodit";
+import Editor from "../ui/Editor/Jodit";
+import Jodit from "../ui/Editor/Jodit";
 
 interface MyFormValues {
   image: null;
@@ -255,14 +256,14 @@ export default function EditorPage() {
                     : ""
                 }`}
               >
-                {/* <Editor
+                <Editor
                   touched={touched}
                   setTouched={setTouched}
                   setFieldValue={setFieldValue}
                   value={values.contenido}
                   placeholder="Escriba el contenido de la publicación"
-                /> */}
-                <Editor content={values.contenido} setContent={setFieldValue} />
+                />
+                {/* <Jodit/> */}
               </div>
               {errors.contenido && touched.contenido && (
                 <h1 className="text-red-600 text-center text-xs italic  my-1">
