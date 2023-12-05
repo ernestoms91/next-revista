@@ -11,6 +11,7 @@ import PreviewImage from "../ui/Form/PreviewImage";
 import JoditEditor from "../ui/Editor/Jodit";
 import Editor from "../ui/Editor/Jodit";
 import Jodit from "../ui/Editor/Jodit";
+import Editor2 from "../ui/Editor/Editor2";
 
 interface MyFormValues {
   image: null;
@@ -75,6 +76,7 @@ export default function EditorPage() {
             isSubmitting,
           }) => (
             <form className="  p-2 w-full space-y-3 md:space-y-6 md:w-10/12" onSubmit={handleSubmit}>
+             
               {/* Añadir imagen */}
               <div className="w-full">
                 <h1 className="font-bold text-2xl my-2">
@@ -259,14 +261,15 @@ export default function EditorPage() {
                     : ""
                 }`}
               >
-                <Editor
+                {/* <Editor
                   touched={touched}
                   setTouched={setTouched}
                   setFieldValue={setFieldValue}
                   value={values.contenido}
                   placeholder="Escriba el contenido de la publicación"
-                />
+                /> */}
                 {/* <Jodit/> */}
+                <Editor2 />
               </div>
               {errors.contenido && touched.contenido && (
                 <h1 className="text-red-600 text-center text-xs italic  my-1">
