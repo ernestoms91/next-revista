@@ -16,7 +16,7 @@ export const MyCheckbox = ({ value, label, classNameLabel, classNameDiv, ...prop
     const [field] = useField({ ...props, type: 'checkbox' });
 
     return (
-        <>
+        <div>
             <label className={classNameLabel}>
                 <Field type="checkbox" className={props.classNameInput} name={props.name} value={value} />
                 <div className={classNameDiv}> {label}</div>
@@ -27,6 +27,6 @@ export const MyCheckbox = ({ value, label, classNameLabel, classNameDiv, ...prop
             </label> */}
             {/* <ErrorMessage name={ props.name } component="span" className='text-center text-xs'/> */}
             {/* <ErrorMessage name={ props.name } render={msg =><div className=" text-red-600">{msg}</div>}/> */}
-        </>
+        </div>
     )
 }

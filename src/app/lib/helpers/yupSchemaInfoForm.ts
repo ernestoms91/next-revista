@@ -55,9 +55,13 @@ export const newInfoSchema = () => {
         }
       ),
 
-    etiquetas: Yup.array().min(1, " Debe seleccionar al menos una etiqueta"),
+    etiquetas: Yup.array()
+    .min(1, " Debe seleccionar al menos una etiqueta")
+    .max(1, " Solo debe seleccionar una etiqueta"),
 
-    secciones: Yup.array().min(1, " Debe seleccionar al menos una sección"),
+    secciones: Yup.array()
+    .min(1, " Debe seleccionar al menos una sección")
+    .max(1, " Solo debe seleccionar una sección"),
 
     palabrasclaves: Yup.string()
       .required("Las palabras claves son obligatorias")

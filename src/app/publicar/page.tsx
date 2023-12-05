@@ -74,7 +74,7 @@ export default function EditorPage() {
             handleSubmit,
             isSubmitting,
           }) => (
-            <form className=" space-y-6 w-10/12" onSubmit={handleSubmit}>
+            <form className="  p-2 w-full space-y-3 md:space-y-6 md:w-10/12" onSubmit={handleSubmit}>
               {/* Añadir imagen */}
               <div className="w-full">
                 <h1 className="font-bold text-2xl my-2">
@@ -178,26 +178,29 @@ export default function EditorPage() {
               />
 
               {/* Etiqueta de nivel educativo */}
+
               <h1 className="font-bold text-2xl my-2">
                 Etiqueta de nivel educativo
               </h1>
               <div
-                className={`flex  p-2  rounded-lg gap-4 ${
+                className={`rounded-lg flex flex-wrap gap-6 p-4 ${
                   errors.etiquetas && touched.etiquetas
                     ? " border-2 border-rose-600"
                     : ""
                 }`}
               >
                 {etiquetas.map((e) => (
+                 
                   <MyCheckbox
                     classNameInput="hidden peer"
                     classNameLabel={`  peer-checked:bg-red-600`}
-                    classNameDiv="inline bg-gris-claro rounded-l-full rounded-t-full p-2 peer-checked:border-2  peer-checked:border-black text-lg"
+                    classNameDiv=" inline bg-gris-claro rounded-l-full rounded-t-full p-2 peer-checked:border-2  peer-checked:border-black text-lg"
                     key={e}
                     label={e}
                     name={"etiquetas"}
                     value={e}
                   />
+               
                 ))}
               </div>
               {errors.etiquetas && touched.etiquetas && (
@@ -209,7 +212,7 @@ export default function EditorPage() {
               {/* Etiqueta de seccion*/}
               <h1 className="font-bold text-2xl my-2">Etiqueta de sección</h1>
               <div
-                className={`flex  gap-8  p-2  rounded-lg ${
+                className={`flex flex-wrap  gap-8  p-2  rounded-lg ${
                   errors.secciones && touched.secciones
                     ? " border-2 border-rose-600"
                     : ""
