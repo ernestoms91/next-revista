@@ -9,10 +9,10 @@ const Podcast = () => {
   return (
     <div className="md:mx-5 ">
       <h1 className="font-bold text-2xl md:my-5 md:text-3xl">Podcast</h1>
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 md:gap-10">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-5 md:gap-10">
         {podcasts && (
           <>
-            <div className="">
+            <div className="col-span-3">
               <PodcastDestacado
                 imagen={podcasts[0].imagen}
                 titulo={podcasts[0].titulo}
@@ -21,7 +21,7 @@ const Podcast = () => {
                 key={podcasts[0].fecha}
               />
             </div>
-            <div className="flex flex-col gap-4">
+            <div className="col-span-2 flex flex-col gap-4 justify-between">
               <PodcastNormal
                 imagen={podcasts[1].imagen}
                 titulo={podcasts[1].titulo}

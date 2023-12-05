@@ -5,7 +5,8 @@ import { informaciones } from "./lib/home-data";
 import Publicaciones from "./ui/home/Publicaciones";
 import Podcast from "./ui/home/Podcast";
 import Publicidad from "./ui/cards/Publicidad";
-import SliderComponent from './ui/home/SliderComponent';
+import SliderComponent from "./ui/home/SliderComponent";
+import PublicacionesDesktop from "./ui/home/PublicacionesDesktop";
 
 export default function Home() {
   return (
@@ -16,6 +17,9 @@ export default function Home() {
       </div>
       <div className="bg-azul-azulito p-8 ">
         <Podcast />
+      </div>
+      <div className=" bg-white p-8 hidden md:block">
+        <PublicacionesDesktop />
       </div>
       <div className="bg-gris-home p-8">
         <Publicidad />

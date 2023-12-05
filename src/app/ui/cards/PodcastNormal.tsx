@@ -50,7 +50,7 @@ const PodcastNormal = ({
         </div>
       </div>
       <div className="w-2/3 mx-1 md:w-1/2 ">
-        <h1 className="font-bold text-base text-left line-clamp-2 md:text-2xl ">{titulo}</h1>
+        <h1 className="font-bold text-base text-left line-clamp-2  lg:text-2xl ">{titulo}</h1>
         <div className="flex justify-between md:flex-row-reverse ">
           <p className=" text-xs md:text-base md:my-5  md:mx-5">{verificarFecha(fecha)}</p>
           <p className=" text-xs md:hidden">

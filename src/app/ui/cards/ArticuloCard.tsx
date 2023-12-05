@@ -10,6 +10,7 @@ interface Iprop  {
 }
 
 const ArticuloCard = ({titulo,imagen,informacion, autor}:Iprop) => {
+
   return (
     <div className="rounded-t-3xl rounded-r-3xl max-w-7xl my-2">
       <div className="relative w-full">
@@ -42,7 +43,7 @@ const ArticuloCard = ({titulo,imagen,informacion, autor}:Iprop) => {
           </p>
           <div className="flex gap-2">
             <Image
-              src="/eye.svg"
+              src="/clock.svg"
               alt="Search Logo"
               width={20}
               height={20}

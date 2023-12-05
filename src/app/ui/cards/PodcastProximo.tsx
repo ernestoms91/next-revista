@@ -7,12 +7,21 @@ interface Iprop {
 
 const PodcastProximo = ({ imagen, titulo }: Iprop) => {
     return (
-      <div className="relative w-full ">
-        <Image
+      <div className=" relative w-full h-full">
+        {/* <Image
           src={imagen}
           alt="Picture of the author"
-          className="rounded-t-3xl rounded-l-3xl"
-          objectFit="cover"
+          className="rounded-t-3xl rounded-l-3xl h-full"
+          objectFit="fill"
+          width={1280}
+          height={720}
+          priority
+        /> */}
+                <Image
+          src={imagen}
+          alt="Picture of the author"
+          className="rounded-t-3xl rounded-l-3xl h-full"
+          objectFit="fill"
           width={1280}
           height={720}
           priority
