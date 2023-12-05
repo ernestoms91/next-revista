@@ -11,7 +11,7 @@ interface Iprop {
 
 const PodcastDestacado = ({ titulo, imagen, descripcion, duracion }: Iprop) => {
   return (
-    <div className="rounded-t-3xl rounded-l-3xl max-w-7xl row-span-2 ">
+    <div className="rounded-t-3xl rounded-l-3xl max-w-7xl h-full ">
       <div className="relative w-full">
         <Image
           src={imagen}

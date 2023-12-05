@@ -9,37 +9,37 @@ const Podcast = () => {
   return (
     <div className="md:mx-5 ">
       <h1 className="font-bold text-2xl md:my-5 md:text-3xl">Podcast</h1>
-      <div className="grid gap-4 lg:grid-cols-2 md:gap-10">
-      {podcasts &&
-        podcasts.map((p, i) => {
-          if (i === 2) {
-            return <PodcastProximo imagen={p.imagen} titulo={p.titulo} key={i} />;
-          }
-          if (i === 1) {
-            return (
-              <PodcastNormal
-                imagen={p.imagen}
-                titulo={p.titulo}
-                descripcion={p.descripcion}
-                duracion={p.duracion}
-                fecha={p.fecha}
-                key={i}
-              />
-            );
-          }
-          if (i === 0) {
-            return (
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 md:gap-10">
+        {podcasts && (
+          <>
+            <div className="">
               <PodcastDestacado
-                imagen={p.imagen}
-                titulo={p.titulo}
-                descripcion={p.descripcion}
-                duracion={p.duracion}
-                key={i}
+                imagen={podcasts[0].imagen}
+                titulo={podcasts[0].titulo}
+                descripcion={podcasts[0].descripcion}
+                duracion={podcasts[0].duracion}
+                key={podcasts[0].fecha}
               />
-            );
-          }
-        })}
-        </div>
+            </div>
+            <div className="flex flex-col gap-4">
+              <PodcastNormal
+                imagen={podcasts[1].imagen}
+                titulo={podcasts[1].titulo}
+                descripcion={podcasts[1].descripcion}
+                duracion={podcasts[1].duracion}
+                fecha={podcasts[1].fecha}
+                key={podcasts[1].fecha}
+              />
+
+              <PodcastProximo
+                imagen={podcasts[2].imagen}
+                titulo={podcasts[2].titulo}
+                key={podcasts[2].fecha}
+              />
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 };

@@ -17,9 +17,7 @@ const PodcastNormal = ({
   fecha,
 }: Iprop) => {
   return (
-    <div className="flex justify-center items-center rounded-l-3xl rounded-t-3xl bg-white md:bg-gris-claro
-
-    ">
+    <div className="flex justify-center items-center rounded-l-3xl rounded-t-3xl bg-white md:bg-gris-claro">
       <div className="w-1/3 md:w-1/2">
         <div className="  relative w-full">
           <Image
