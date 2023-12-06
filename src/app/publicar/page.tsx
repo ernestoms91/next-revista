@@ -9,6 +9,7 @@ import { MyCheckbox } from "../ui/Form/MyCheckbox";
 import { newInfoSchema } from "../lib/helpers/yupSchemaInfoForm";
 import PreviewImage from "../ui/Form/PreviewImage";
 import Editor from "../ui/Editor/Editor";
+import dynamic from "next/dynamic";
 
 
 interface MyFormValues {
@@ -44,6 +45,10 @@ const initialValues: MyFormValues = {
   enlace: "",
   fecha: "",
 };
+
+const Editor = dynamic(() => import("../../components/Editor"), {
+  ssr: false,
+});
 
 export default function EditorPage() {
   const imageRef = useRef<HTMLInputElement | null>(null);

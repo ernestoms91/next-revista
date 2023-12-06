@@ -2,6 +2,8 @@ import React, { useEffect, useRef } from "react";
 import EditorJS, { OutputData } from "@editorjs/editorjs";
 import { EDITOR_TOOLS } from "./EDITOR_TOOLS";
 
+
+
 export default function Editor({ data, onChange, holder }) {
   //add a reference to editor
   const ref = useRef();
