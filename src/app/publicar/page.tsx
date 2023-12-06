@@ -1,6 +1,6 @@
-'use client';
+"use client";
 import { Formik } from "formik";
-import { useRef, useState} from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import { MyTextInput } from "../ui/Form/MyTextInput";
 import { MyTextarea } from "../ui/Form/MyTextarea";
@@ -9,8 +9,6 @@ import { MyCheckbox } from "../ui/Form/MyCheckbox";
 import { newInfoSchema } from "../lib/helpers/yupSchemaInfoForm";
 import PreviewImage from "../ui/Form/PreviewImage";
 import dynamic from "next/dynamic";
-import Editor from '../ui/Editor/Editor';
-
 
 interface MyFormValues {
   image: null;
@@ -47,13 +45,12 @@ const initialValues: MyFormValues = {
 };
 
 const Editor = dynamic(() => import("@/app/ui/Editor/Editor"), {
-    ssr: false,
-  });
+  ssr: false,
+});
 
 export default function EditorPage() {
   const imageRef = useRef<HTMLInputElement | null>(null);
   const [data, setData] = useState();
-
 
   return (
     <>
@@ -80,8 +77,10 @@ export default function EditorPage() {
             handleSubmit,
             isSubmitting,
           }) => (
-            <form className="  p-2 w-full space-y-3 md:space-y-6 md:w-10/12" onSubmit={handleSubmit}>
-             
+            <form
+              className="  p-2 w-full space-y-3 md:space-y-6 md:w-10/12"
+              onSubmit={handleSubmit}
+            >
               {/* Añadir imagen */}
               <div className="w-full">
                 <h1 className="font-bold text-2xl my-2">
@@ -130,7 +129,6 @@ export default function EditorPage() {
                 </button>
               </div>
 
-
               {/* Añadir autor o autores */}
               <MyTextInput
                 name="autor"
@@ -178,7 +176,6 @@ export default function EditorPage() {
                 }`}
               >
                 {etiquetas.map((e) => (
-                 
                   <MyCheckbox
                     classNameInput="hidden peer"
                     classNameLabel={`  peer-checked:bg-red-600`}
@@ -188,7 +185,6 @@ export default function EditorPage() {
                     name={"etiquetas"}
                     value={e}
                   />
-               
                 ))}
               </div>
               {errors.etiquetas && touched.etiquetas && (
@@ -246,22 +242,12 @@ export default function EditorPage() {
                     ? " border-2 border-rose-600"
                     : ""
                 }`}
-              >
-                <div className="border rounded-md">
-                    <Editor
-                        data={data}
-                        onChange={setData}
-                        holder="editorjs-container"
-                    />
-                </div>
-              </div>
+              ></div>
               {errors.contenido && touched.contenido && (
                 <h1 className="text-red-600 text-center text-xs italic  my-1">
                   {errors.contenido}
                 </h1>
               )}
-
-          
 
               {/*Botones salvar y publicar*/}
               <div className="flex gap-4 justify-end">
@@ -281,6 +267,9 @@ export default function EditorPage() {
             </form>
           )}
         </Formik>
+        <div className="border rounded-md">
+          <Editor data={data} onChange={setData} holder="editorjs-container" />
+        </div>
       </div>
     </>
   );
