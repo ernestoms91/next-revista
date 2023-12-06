@@ -1,7 +1,6 @@
 import CheckList from "@editorjs/checklist";
 import Code from "@editorjs/code";
 import Delimiter from "@editorjs/delimiter";
-import Embed from "@editorjs/embed";
 import Image from "@editorjs/image";
 import InlineCode from "@editorjs/inline-code";
 import Link from "@editorjs/link";
