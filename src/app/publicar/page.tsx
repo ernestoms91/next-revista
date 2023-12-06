@@ -45,14 +45,22 @@ const initialValues: MyFormValues = {
   fecha: "",
 };
 
-const Editor = dynamic(() => import("../ui/Editor/Editor"), {
-  ssr: false,
-});
+// Verificar si estamos en el entorno del navegador
+const isClient = typeof window !== "undefined";
+
+let Editor = null;
+if (isClient) {
+  // Importar dinámicamente el componente solo en el lado del cliente
+  Editor = dynamic(() => import("../ui/Editor/Editor"), {
+    ssr: false,
+  });
+}
 
 export default function EditorPage() {
   const imageRef = useRef<HTMLInputElement | null>(null);
   const [data, setData] = useState();
-   console.log(data)
+
+
   return (
     <>
       <div className="grid  place-items-center my-2">
