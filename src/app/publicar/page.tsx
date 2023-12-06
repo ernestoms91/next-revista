@@ -1,6 +1,6 @@
 'use client';
 import { ErrorMessage, Field, Formik } from "formik";
-import { useRef} from "react";
+import { useRef, useState} from "react";
 import Image from "next/image";
 import { MyTextInput } from "../ui/Form/MyTextInput";
 import { MyTextarea } from "../ui/Form/MyTextarea";
@@ -8,10 +8,8 @@ import { etiquetas, secciones } from "../lib/publicacion-data";
 import { MyCheckbox } from "../ui/Form/MyCheckbox";
 import { newInfoSchema } from "../lib/helpers/yupSchemaInfoForm";
 import PreviewImage from "../ui/Form/PreviewImage";
-import JoditEditor from "../ui/Editor/Jodit";
-import Editor from "../ui/Editor/Jodit";
-import Jodit from "../ui/Editor/Jodit";
-import Editor2 from "../ui/Editor/Editor2";
+import Editor from "../ui/Editor/Editor";
+
 
 interface MyFormValues {
   image: null;
@@ -49,7 +47,8 @@ const initialValues: MyFormValues = {
 
 export default function EditorPage() {
   const imageRef = useRef<HTMLInputElement | null>(null);
-
+  const [data, setData] = useState();
+   console.log(data)
   return (
     <>
       <div className="grid  place-items-center my-2">
@@ -125,25 +124,6 @@ export default function EditorPage() {
                 </button>
               </div>
 
-              {/* Añadir  pie de imagen */}
-              <MyTextInput
-                name="pieimagen"
-                classNameLabel="font-bold text-2xl  block"
-                label="Añadir pie de página"
-                classNameInput=" bg-gris-claro block p-4  rounded-l-full rounded-t-full w-full"
-                placeholder="Escriba el pie de imagen aquí (opcional)"
-              />
-
-              {/* Añadir  título */}
-              <MyTextInput
-                name="titulo"
-                classNameLabel="font-bold text-2xl  block"
-                label="Añadir título"
-                classNameInput={`bg-gris-claro block p-4 rounded-l-full rounded-t-full w-full border-2 ${
-                  errors.titulo && touched.titulo ? "border-rose-600" : ""
-                }`}
-                placeholder="Escriba su título aquí"
-              />
 
               {/* Añadir autor o autores */}
               <MyTextInput
@@ -269,7 +249,14 @@ export default function EditorPage() {
                   placeholder="Escriba el contenido de la publicación"
                 /> */}
                 {/* <Jodit/> */}
-                <Editor2 />
+                {/* <Editor2 /> */}
+                <div className="border rounded-md">
+                    <Editor
+                        data={data}
+                        onChange={setData}
+                        holder="editorjs-container"
+                    />
+                </div>
               </div>
               {errors.contenido && touched.contenido && (
                 <h1 className="text-red-600 text-center text-xs italic  my-1">
@@ -277,50 +264,7 @@ export default function EditorPage() {
                 </h1>
               )}
 
-              {/* Añadir titular  */}
-              <MyTextarea
-                maxLength={160}
-                name="titular"
-                classNameLabel="font-bold text-2xl  block"
-                label="Añadir titular"
-                classNameInput={`bg-gris-claro  rounded-lg block p-4   w-full border-2 ${
-                  errors.titular && touched.titular ? "border-rose-600" : ""
-                }`}
-                placeholder="Escriba el titular aquí"
-              />
-
-              {/* Añadir cita  */}
-              <MyTextarea
-                maxLength={160}
-                name="cita"
-                classNameLabel="font-bold text-2xl  block"
-                label="Añadir cita"
-                classNameInput={`bg-gris-claro  rounded-lg block p-4   w-full border-2 ${
-                  errors.cita && touched.cita ? "border-rose-600" : ""
-                }`}
-                placeholder="Escriba la cita aquí"
-              />
-
-              {/* Añadir enlace */}
-              <MyTextInput
-                type="url"
-                name="enlace"
-                classNameLabel="font-bold text-2xl  block"
-                label="Añadir enlace"
-                classNameInput={`bg-gris-claro block p-4  rounded-l-full rounded-t-full w-full border-2 ${
-                  errors.enlace && touched.enlace ? "border-rose-600" : ""
-                }`}
-                placeholder="Escriba el enlace"
-              />
-
-              {/* Fecha programada*/}
-              {/* <MyDateInput2
-                type="datetime-local"
-                name="fecha"
-                label="Programar"
-                classNameLabel="font-bold text-2xl  block"
-                classNameInput=" bg-gris-claro block p-4  rounded-l-full rounded-t-full w-full"
-              /> */}
+          
 
               {/*Botones salvar y publicar*/}
               <div className="flex gap-4 justify-end">
