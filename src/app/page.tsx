@@ -1,7 +1,4 @@
 "use client";
-import Editor from "@/app/ui/Editor/Jodit";
-import ArticuloCard from "./ui/cards/ArticuloCard";
-import { informaciones } from "./lib/home-data";
 import Publicaciones from "./ui/home/Publicaciones";
 import Podcast from "./ui/home/Podcast";
 import Publicidad from "./ui/cards/Publicidad";

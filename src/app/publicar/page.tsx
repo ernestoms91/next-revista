@@ -1,5 +1,5 @@
 'use client';
-import { ErrorMessage, Field, Formik } from "formik";
+import { Formik } from "formik";
 import { useRef, useState} from "react";
 import Image from "next/image";
 import { MyTextInput } from "../ui/Form/MyTextInput";
@@ -45,8 +45,7 @@ const initialValues: MyFormValues = {
   fecha: "",
 };
 
-
-const Editor = dynamic(() => import('../ui/Editor/Editor'), {
+const Editor = dynamic(() => import("../ui/Editor/Editor"), {
   ssr: false,
 });
 
@@ -246,15 +245,6 @@ export default function EditorPage() {
                     : ""
                 }`}
               >
-                {/* <Editor
-                  touched={touched}
-                  setTouched={setTouched}
-                  setFieldValue={setFieldValue}
-                  value={values.contenido}
-                  placeholder="Escriba el contenido de la publicación"
-                /> */}
-                {/* <Jodit/> */}
-                {/* <Editor2 /> */}
                 <div className="border rounded-md">
                     <Editor
                         data={data}
