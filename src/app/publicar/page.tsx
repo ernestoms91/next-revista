@@ -9,6 +9,7 @@ import { MyCheckbox } from "../ui/Form/MyCheckbox";
 import { newInfoSchema } from "../lib/helpers/yupSchemaInfoForm";
 import PreviewImage from "../ui/Form/PreviewImage";
 import dynamic from "next/dynamic";
+import Editor from '../ui/Editor/Editor';
 
 
 interface MyFormValues {
@@ -45,16 +46,9 @@ const initialValues: MyFormValues = {
   fecha: "",
 };
 
-// Verificar si estamos en el entorno del navegador
-const isClient = typeof window !== "undefined";
-
-let Editor = null;
-if (isClient) {
-  // Importar dinámicamente el componente solo en el lado del cliente
-  Editor = dynamic(() => import("../ui/Editor/Editor"), {
+const Editor = dynamic(() => import("@/app/ui/Editor/Editor"), {
     ssr: false,
   });
-}
 
 export default function EditorPage() {
   const imageRef = useRef<HTMLInputElement | null>(null);
