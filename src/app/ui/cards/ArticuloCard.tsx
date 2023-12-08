@@ -12,7 +12,7 @@ interface Iprop  {
 const ArticuloCard = ({titulo,imagen,informacion, autor}:Iprop) => {
 
   return (
-    <div className="rounded-t-3xl rounded-r-3xl max-w-7xl my-2">
+    <div className="rounded-t-3xl rounded-r-3xl max-w-7xl my-2 md:my-8">
       <div className="relative w-full">
         <Image
           src={imagen}

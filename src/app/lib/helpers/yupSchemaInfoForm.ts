@@ -26,19 +26,14 @@ export const newInfoSchema = () => {
         (value) => value && value.size <= MAX_FILE_SIZE
       ),
 
-    titulo: Yup.string()
-      .required("El título es obligatorio")
-      .min(2, "El título es muy corto")
-      .max(20, "El título es muy largo"),
-
+    enunciado: Yup.string()
+      .required("El enunciado es obligatorio")
+      .min(2, "El enunciado es muy corto"),
+      
     autor: Yup.string()
       .required("El autor es obligatorio")
       .min(2, "El nombre del autor es muy corto")
       .max(20, "El nombre del autor es muy largo"),
-
-    enunciado: Yup.string()
-      .required("El enunciado es obligatorio")
-      .min(2, "El enunciado es muy corto"),
 
     resumen: Yup.string()
       .required("El resumen es obligatorio")
@@ -56,12 +51,12 @@ export const newInfoSchema = () => {
       ),
 
     etiquetas: Yup.array()
-    .min(1, " Debe seleccionar al menos una etiqueta")
-    .max(1, " Solo debe seleccionar una etiqueta"),
+      .min(1, " Debe seleccionar al menos una etiqueta")
+      .max(1, " Solo debe seleccionar una etiqueta"),
 
     secciones: Yup.array()
-    .min(1, " Debe seleccionar al menos una sección")
-    .max(1, " Solo debe seleccionar una sección"),
+      .min(1, " Debe seleccionar al menos una sección")
+      .max(1, " Solo debe seleccionar una sección"),
 
     palabrasclaves: Yup.string()
       .required("Las palabras claves son obligatorias")
@@ -78,23 +73,6 @@ export const newInfoSchema = () => {
         }
       ),
 
-    contenido: Yup.string()
-      .required("El contenido es obligatorio")
-      .min(2, "El contenido es muy corto"),
-
-    titular: Yup.string()
-      .required("El titular es obligatorio")
-      .min(2, "El titular es muy corto"),
-
-    cita: Yup.string()
-      .required("La cita es obligatoria")
-      .min(2, "La cita es muy corta"),
-
-    enlace: Yup.string()
-      .required("El enlace es obligatorio")
-      .matches(
-        /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w.-]*)*\/?$/,
-        "El enlace no es válido"
-      ),
+    contenido: Yup.array().min(2, " El contenido no puede estar vacío"),
   });
 };

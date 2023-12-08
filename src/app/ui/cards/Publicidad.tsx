@@ -9,16 +9,17 @@ interface Iprop {
 
 const Publicidad = () => {
   return (
-    <div className="relative w-full">
+    <div className="relative w-full md:w-full bg-slate-600  md:bg-inherit md:py-4 md:col-span-2 ">
     <Image
       src="https://images.unsplash.com/photo-1503694978374-8a2fa686963a?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
       alt="Picture of the author"
-      className="rounded-t-3xl rounded-l-3xl"
+      className="rounded-t-3xl rounded-l-3xl md:w-full md:h-80"
       objectFit="cover"
       width={1280}
       height={720}
       priority
     />
+
     <div className="absolute inset-0 flex items-center justify-center">
       <div className="">
         <h1 className="text-white text-3xl font-bold">Imprenta</h1>

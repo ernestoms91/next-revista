@@ -18,10 +18,10 @@ export default function Home() {
       <div className=" bg-white p-8 hidden md:block">
         <PublicacionesDesktop />
       </div>
-      <div className="bg-gris-home p-8">
+      <div className="bg-gris-home p-8 md:hidden">
         <Publicidad />
       </div>
-      <div className="bg-gris-claro p-8">
+      <div className="bg-gris-claro p-8  md:hidden">
         <Publicaciones />
       </div>
     </div>

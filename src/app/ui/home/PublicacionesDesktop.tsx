@@ -2,42 +2,53 @@ import React from "react";
 import ArticuloCard from "../cards/ArticuloCard";
 import { informaciones } from "@/app/lib/home-data";
 import ArticuloNormalCard from "../cards/ArticuloNormalCard";
+import Publicidad from "../cards/Publicidad";
 
 const PublicacionesDesktop = () => {
   return (
     <div className=" hidden md:mx-5 md:grid grid-cols-2 gap-8">
       <div className="flex-col">
-        {informaciones &&
-          informaciones.map((inf, i) => {
-            if (i % 2 === 0) {
-              return (
-                <ArticuloCard
-                  titulo={inf.titulo}
-                  imagen={inf.imagen}
-                  informacion={inf.informacion}
-                  autor={inf.autor}
-                  key={i}
-                />
-              );
-            }
-          })}
+        {informaciones && (
+          <>
+            <ArticuloCard
+              titulo={informaciones[0].titulo}
+              imagen={informaciones[0].imagen}
+              informacion={informaciones[0].informacion}
+              autor={informaciones[0].autor}
+              key={informaciones[0].autor}
+            />
+
+            <ArticuloNormalCard
+              titulo={informaciones[1].titulo}
+              imagen={informaciones[1].imagen}
+              informacion={informaciones[1].informacion}
+              key={informaciones[1].autor}
+            />
+          </>
+        )}
       </div>
       <div className="flex-col">
-        {informaciones &&
-          informaciones.map((inf, i) => {
-            if (i % 2 === 0) {
-              return (
-                <ArticuloNormalCard
-                  titulo={inf.titulo}
-                  imagen={inf.imagen}
-                  informacion={inf.informacion}
-                  autor={inf.autor}
-                  key={i}
-                />
-              );
-            }
-          })}
+      {informaciones && (
+          <>
+             <ArticuloNormalCard
+              titulo={informaciones[2].titulo}
+              imagen={informaciones[2].imagen}
+              informacion={informaciones[2].informacion}
+              key={informaciones[2].autor}
+            />
+            <ArticuloCard
+              titulo={informaciones[3].titulo}
+              imagen={informaciones[3].imagen}
+              informacion={informaciones[3].informacion}
+              autor={informaciones[3].autor}
+              key={informaciones[3].autor}
+            />
+          </>
+        )}
       </div>
+      <hr className="bg-black h-[4px] col-span-2" />
+      <Publicidad />
+
     </div>
   );
 };

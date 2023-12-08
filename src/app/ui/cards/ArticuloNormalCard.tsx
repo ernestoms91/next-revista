@@ -11,7 +11,7 @@ const ArticuloNormalCard = ({ titulo, imagen, informacion }: Iprop) => {
 
   console.log(informacion)
   return (
-    <div className="flex w-full  h-60 rounded-l-3xl my-2 rounded-tr-3xl  bg-white md:bg-gris-claro">
+    <div className="flex w-full  h-60 rounded-l-3xl my-2 rounded-tr-3xl  bg-white md:bg-gris-claro md:my-8 ">
       <div>
         <div className="  relative w-full h-60 ">
         <Image

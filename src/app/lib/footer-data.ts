@@ -26,6 +26,27 @@ export const secciones = [
     }
 ]
 
+
+
+export const escolaridad = [
+    {
+        name: 'Primera Infancia',
+        href:'/infancia',        
+    },
+    {
+        name: 'Educación Primaria',
+        href:'/primaria',        
+    },
+    {
+        name: 'Secundaria Básica',
+        href:'/secundaria',        
+    },
+    {
+        name: 'Preuniversitario',
+        href:'/pre',        
+    }
+]
+
 export const publicidad = [
     {
         name: 'Unicef',
@@ -61,5 +82,16 @@ export const otros = [
     {
         name: 'Catálogo Editorial',
         href:'/catalogo',
+    }
+]
+
+export const otrosNav = [
+    {
+        name: 'Sobre nosotros',
+        href:'/about',        
+    },
+    {
+        name: 'Para autores',
+        href:'/autores',        
     }
 ]
