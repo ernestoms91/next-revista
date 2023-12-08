@@ -33,7 +33,7 @@ const initialValues: MyFormValues = {
   contenido: [],
 };
 
-const Editor = dynamic(() => import("@/app/ui/Editor/Editor"), {
+const Editor2 = dynamic(() => import("@/app/ui/Editor/Editor2"), {
   ssr: false,
 });
 

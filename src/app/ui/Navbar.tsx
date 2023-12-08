@@ -126,7 +126,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      <div className={`  sticky  z-10 w-full h-screen bg-white  mx-6 ${open ? "" : "hidden"}`}>
+      <div className={`  sticky  z-10 w-full  bg-white  mx-6 ${open ? "" : "hidden"}`}>
         <ListaSecciones />
         <TipoEducacion />
         <Otros />
