@@ -9,7 +9,6 @@ import { MyCheckbox } from "../ui/Form/MyCheckbox";
 import { newInfoSchema } from "../lib/helpers/yupSchemaInfoForm";
 import PreviewImage from "../ui/Form/PreviewImage";
 import dynamic from "next/dynamic";
-import Editor2 from "../ui/Editor/Editor2";
 
 interface MyFormValues {
   image: null;
