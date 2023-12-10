@@ -26,6 +26,41 @@ export const secciones = [
     }
 ]
 
+export const seccionesDesktop = [
+    {
+        name: 'Actualidad',
+        href:'/actualidad',        
+        src:'/actualidad2.svg',        
+    },
+    {
+        name: 'Experiencia',
+        href:'/experiencia',        
+        src:'/experiencia.svg',        
+    },
+    {
+        name: 'Indagaciones',
+        href:'/indagaciones',        
+        src:'/indagaciones.svg',        
+    },
+    {
+        name: 'Podcast',
+        href:'/podcast',
+        src:'/podcastazul.svg'        
+    },
+    {
+        name: 'Recursos',
+        href:'/recursos',        
+        src:'/recursos.svg',        
+    },
+
+
+    {
+        name: 'Videoblog',
+        href:'/videoblog',
+        src:'/videoblog.svg'    
+    }
+]
+
 
 
 export const escolaridad = [
@@ -93,5 +128,23 @@ export const otrosNav = [
     {
         name: 'Para autores',
         href:'/autores',        
+    }
+]
+export const redes = [
+    {
+        name: 'facebok',
+        href:'/faceoscuro.svg',        
+    },
+    {
+        name: 'twitter',
+        href:'/xoscuro.svg',        
+    },
+    {
+        name: 'linkend',
+        href:'/inoscuro.svg',        
+    },
+    {
+        name: 'telegram',
+        href:'/telegramoscuro.svg',        
     }
 ]
