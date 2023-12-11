@@ -116,7 +116,7 @@ const Navbar = () => {
         <div className=" my-8 hidden md:flex md:gap-x-16 lg:gap-x-30">
           {redes &&
             redes.map((r) => (
-              <div className="flex justify-center items-center">
+              <div key={r.name} className="flex justify-center items-center">
                 <Link href={`/${r.name}`}>
                   <Image
                     src={r.href}
@@ -193,14 +193,14 @@ const Navbar = () => {
       <div className=" hidden md:flex flex-wrap justify-center gap-4 ">
         {secciones &&
           secciones.map((s) => (
-            <button className="bg-white  border-2 px-8  border-azul-claro text-azul-claro font-bold rounded-l-full rounded-t-full text-lg ">
+            <button key={s.name} className="bg-white  border-2 px-8  border-azul-claro text-azul-claro font-bold rounded-l-full rounded-t-full text-lg ">
               <Link href={s.href}>{s.name}</Link>
             </button>
           ))}
       </div>
 
       <div
-        className={`  sticky  z-10 bg-white  mx-6 ${
+        className={`  sticky h-screen  z-10 bg-white  mx-6 ${
           open ? "" : "hidden" 
         }`}
       >
