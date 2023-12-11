@@ -10,11 +10,13 @@ import {
   seccionesDesktop,
 } from "../lib/footer-data";
 import libro from "../../../public/202.svg";
+import { calcularTiempoLectura } from "../lib/helpers/calcularTiempoLectura ";
 
 const otros = ["Sobre nosotros", "Para autores"];
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const [searching, setSearching] = useState(false);
   const [active, setActive] = useState<boolean>(false);
 
   const ListaSeccionesMobile = () => (
@@ -152,6 +154,7 @@ const Navbar = () => {
       className={className}
       onClick={() => {
         setOpen(false);
+        setSearching(false);
       }}
     >
       <Image
@@ -166,9 +169,18 @@ const Navbar = () => {
 
   return (
     <nav className="relative">
-      <div className="my-5 flex justify-center gap-x-10">
+      <div
+        className={`my-5 flex justify-center gap-x-10 ${
+          open || searching ? "hidden" : ""
+        }`}
+      >
         <div className="flex sm:gap-10 md:flex-row-reverse md:gap-20 lg:gap-40">
-          <button onClick={() => setOpen(false)}>
+          <button
+            onClick={() => {
+              setOpen(false);
+              setSearching(true);
+            }}
+          >
             <Image
               src="/lupa.svg"
               alt="Search Logo"
@@ -190,26 +202,64 @@ const Navbar = () => {
           </button>
         </div>
       </div>
-      <div className=" hidden md:flex flex-wrap justify-center gap-4 ">
+      <div
+        className={`hidden md:flex flex-wrap justify-center gap-4 ${
+          open || searching ? "md:hidden" : ""
+        }`}
+      >
         {secciones &&
           secciones.map((s) => (
-            <button key={s.name} className="bg-white  border-2 px-8  border-azul-claro text-azul-claro font-bold rounded-l-full rounded-t-full text-lg ">
+            <button
+              key={s.name}
+              className="bg-white  border-2 px-8  border-azul-claro text-azul-claro font-bold rounded-l-full rounded-t-full text-lg "
+            >
               <Link href={s.href}>{s.name}</Link>
             </button>
           ))}
       </div>
 
       <div
-        className={`  sticky h-screen  z-10 bg-white  mx-6 ${
-          open ? "" : "hidden" 
+        className={`  fixed h-screen w-full overflow-y-auto z-10 bg-white   ${
+          open ? "mx-0" : "hidden"
         }`}
       >
-        <div className="flex mx-8  flex-row-reverse my-2 ">
+        <div className="flex mx-8  flex-row-reverse my-2 md:my-10">
           <Close className={"hidden md:flex"} />
         </div>
         <ListaSeccionesMobile />
         <TipoEducacion />
         <Otros />
+      </div>
+
+      <div
+        className={`  fixed h-screen w-full overflow-y-auto z-10 bg-white   ${
+          searching ? "mx-0" : "hidden"
+        }`}
+      >
+        <div className="block md:flex mx-8  justify-between  my-10 ">
+          <div className="flex   flex-row-reverse md:hidden ">
+            <Close className={" md:hidden"} />
+          </div>
+          <div className="flex ">
+            <div className="rounded-lg rounded-r-none border-2 border-r-0 bg-gris-claro2">
+              <Image
+                src="/lupa.svg"
+                alt="MOore Logo"
+                width={40}
+                height={40}
+                priority
+              />
+            </div>
+            <input
+              className="rounded-lg rounded-l-none border-2 border-l-0 bg-gris-claro2 focus:outline-none"
+              placeholder="Busca lo que quieras"
+            />
+          </div>
+          <Close className={"hidden md:flex"} />
+        </div>
+        <h1 className="text-center text-2xl font-bold text-gris-medio">
+          La búsqueda que acaba de realizar no llegado a ningún resultado
+        </h1>
       </div>
     </nav>
   );
