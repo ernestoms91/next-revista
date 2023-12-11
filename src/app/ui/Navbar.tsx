@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { MouseEventHandler, useState } from "react";
 import {
   escolaridad,
   otrosNav,
@@ -19,7 +19,11 @@ const Navbar = () => {
 
   const ListaSeccionesMobile = () => (
     <>
-      <h1 className="capitalize p-4 font-bold md:text-2xl">Secciones</h1>
+      <div className="flex justify-between">
+        <h1 className="capitalize p-4 font-bold md:text-2xl">Secciones</h1>
+        <Close className="md:hidden" />
+      </div>
+
       <div className="block md:hidden">
         {secciones &&
           secciones.map((s, i) => {
@@ -143,6 +147,23 @@ const Navbar = () => {
     </div>
   );
 
+  const Close = ({ className }: { className?: string }) => (
+    <button
+      className={className}
+      onClick={() => {
+        setOpen(false);
+      }}
+    >
+      <Image
+        src="/close.svg"
+        alt="Close Logo"
+        width={40}
+        height={40}
+        priority
+      />
+    </button>
+  );
+
   return (
     <nav className="relative">
       <div className="my-5 flex justify-center gap-x-10">
@@ -173,19 +194,19 @@ const Navbar = () => {
         {secciones &&
           secciones.map((s) => (
             <button className="bg-white  border-2 px-8  border-azul-claro text-azul-claro font-bold rounded-l-full rounded-t-full text-lg ">
-              <Link href={s.href}>
-              {s.name}
-              </Link>
- 
+              <Link href={s.href}>{s.name}</Link>
             </button>
           ))}
       </div>
 
       <div
-        className={`  sticky  z-10 w-full  bg-white  mx-6 ${
-          open ? "" : "hidden"
+        className={`  sticky  z-10 bg-white  mx-6 ${
+          open ? "" : "hidden" 
         }`}
       >
+        <div className="flex mx-8  flex-row-reverse my-2 ">
+          <Close className={"hidden md:flex"} />
+        </div>
         <ListaSeccionesMobile />
         <TipoEducacion />
         <Otros />
