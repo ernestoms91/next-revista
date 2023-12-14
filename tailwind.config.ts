@@ -24,11 +24,12 @@ const config: Config = {
         'gris-card':'#EBEBEB',
         'azul-azulito':'#319FD833',
         'azul-oscuro':'#4CA8EB',
-        'blanco-oscuro':'#F6F6F6',
-
+        'blanco-oscuro':'#F6F6F6'
       }
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwindcss-animated')
+  ],
 }
 export default config

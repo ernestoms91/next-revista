@@ -2,16 +2,18 @@
 import { Formik } from "formik";
 import { useRef, useState } from "react";
 import Image from "next/image";
-import { MyTextInput } from "../ui/Form/MyTextInput";
-import { MyTextarea } from "../ui/Form/MyTextarea";
-import { etiquetas, secciones } from "../lib/publicacion-data";
-import { MyCheckbox } from "../ui/Form/MyCheckbox";
-import { newInfoSchema } from "../lib/helpers/yupSchemaInfoForm";
-import PreviewImage from "../ui/Form/PreviewImage";
+import { MyTextInput } from "../../ui/Form/MyTextInput";
+import { MyTextarea } from "../../ui/Form/MyTextarea";
+import { etiquetas, secciones } from "../../lib/publicacion-data";
+import { MyCheckbox } from "../../ui/Form/MyCheckbox";
+import { newInfoSchema } from "../../lib/helpers/yupSchemaInfoForm";
+import PreviewImage from "../../ui/Form/PreviewImage";
 import dynamic from "next/dynamic";
+import { S3 } from "@aws-sdk/client-s3";
+import { uploadImage } from "../../lib/helpers/aws";
 
 interface MyFormValues {
-  image: null;
+  image: null | File;
   enunciado: string;
   autor: string;
   resumen: string;
@@ -40,6 +42,8 @@ export default function EditorPage() {
   const imageRef = useRef<HTMLInputElement | null>(null);
   const [data, setData] = useState();
 
+  console.log(process.env.NEXT_PUBLIC_BACKEND_URL);
+
   return (
     <>
       <div className="grid  place-items-center my-2">
@@ -49,7 +53,13 @@ export default function EditorPage() {
           validationSchema={newInfoSchema}
           enableReinitialize={true}
           onSubmit={async (values) => {
-            console.log(values);
+            let { image } = values;
+            // const reader = new FileReader();
+            // reader.readAsDataURL(image as File);
+            // reader.onload = () => {
+            //   uploadImage(reader.result as string);
+            // };
+            uploadImage(image as File);
             // TODO subir la imagen al backend
             // TODO post la info
           }}

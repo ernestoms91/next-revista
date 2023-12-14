@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
-import "./globals.css";
-const roboto = Roboto({ subsets: ["latin"], weight: "400", style: "normal" });
+import Navbar from "../ui/Navbar";
+import { CustomizedFooter } from "../ui/CustomizedFooter";
+
 
 export const metadata: Metadata = {
   title: "Revista App",
@@ -14,11 +14,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={roboto.className}>
-        {children}
-      </body>
-
-    </html>
+    <>
+      <Navbar />
+      {children}
+      <CustomizedFooter />
+    </>
   );
 }

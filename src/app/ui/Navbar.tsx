@@ -220,7 +220,7 @@ const Navbar = () => {
 
       <div
         className={`  fixed h-screen w-full overflow-y-auto z-10 bg-white   ${
-          open ? "mx-0" : "hidden"
+          open ? "mx-0 animate-fade-down " : "hidden"
         }`}
       >
         <div className="flex mx-8  flex-row-reverse my-2 md:my-10">
@@ -232,8 +232,8 @@ const Navbar = () => {
       </div>
 
       <div
-        className={`  fixed h-screen w-full overflow-y-auto z-10 bg-white   ${
-          searching ? "mx-0" : "hidden"
+        className={`  fixed h-screen w-full overflow-y-auto z-10 bg-white  ${
+          searching ? "mx-0  animate-fade-down " : "hidden"
         }`}
       >
         <div className="block md:flex mx-8  justify-between  my-10 ">

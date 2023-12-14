@@ -4,9 +4,13 @@ import Podcast from "./ui/home/Podcast";
 import Publicidad from "./ui/cards/Publicidad";
 import SliderComponent from "./ui/home/SliderComponent";
 import PublicacionesDesktop from "./ui/home/PublicacionesDesktop";
+import Navbar from "./ui/Navbar";
+import { CustomizedFooter } from "./ui/CustomizedFooter";
 
 export default function Home() {
   return (
+    <>
+    <Navbar />
     <div className=" ">
       <div className="bg-gris-claro rounded-lg p-8 lg:bg-white">
         <SliderComponent />
@@ -25,5 +29,7 @@ export default function Home() {
         <Publicaciones />
       </div>
     </div>
+    <CustomizedFooter />
+    </>
   );
 }

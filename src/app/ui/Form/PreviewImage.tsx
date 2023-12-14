@@ -12,7 +12,6 @@ const PreviewImage = ({ file }:any) => {
   reader.onload = () => {
     setPreview(reader.result);
   };
-
   return (
     <div className="rounded-lg w-full">
   {   preview ? <Image src={preview} alt="preview" width={348} height={348} /> : "Loading..."}
