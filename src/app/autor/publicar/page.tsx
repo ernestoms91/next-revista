@@ -11,6 +11,7 @@ import PreviewImage from "../../ui/Form/PreviewImage";
 import dynamic from "next/dynamic";
 import { S3 } from "@aws-sdk/client-s3";
 import { uploadImage } from "../../lib/helpers/aws";
+import { putBucketPresignedURL } from "@/app/lib/helpers/aws2";
 
 interface MyFormValues {
   image: null | File;
@@ -42,8 +43,6 @@ export default function EditorPage() {
   const imageRef = useRef<HTMLInputElement | null>(null);
   const [data, setData] = useState();
 
-  console.log(process.env.NEXT_PUBLIC_BACKEND_URL);
-
   return (
     <>
       <div className="grid  place-items-center my-2">
@@ -53,15 +52,26 @@ export default function EditorPage() {
           validationSchema={newInfoSchema}
           enableReinitialize={true}
           onSubmit={async (values) => {
-            let { image } = values;
-            // const reader = new FileReader();
-            // reader.readAsDataURL(image as File);
-            // reader.onload = () => {
-            //   uploadImage(reader.result as string);
-            // };
-            uploadImage(image as File);
-            // TODO subir la imagen al backend
-            // TODO post la info
+            try {
+              let { image } = values;
+              console.log(image?.type)
+
+              {/* Codigo para subir imagen al minio */ }
+               const url = await putBucketPresignedURL('media', "wallpaper_1.jpg", image?.type as string)
+              const response = await fetch(url as string, {
+                method: 'PUT',
+                body: image,
+                headers: {
+                  'Content-Type': image?.type as string
+                }
+              });
+
+              if (!response.ok) {
+                throw new Error('Failed to upload file');
+              }
+            } catch (error) {
+              console.log(error);
+            }
           }}
         >
           {({

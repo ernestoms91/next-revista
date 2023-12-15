@@ -2,19 +2,14 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import libro from "../../../public/202.svg";
+import { IoPeopleSharp } from "react-icons/io5";
+import { TfiWrite } from "react-icons/tfi";
 
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
   const Menus = [
-    { title: "Dashboard", src: "Chart_fill" },
-    { title: "Inbox", src: "Chat" },
-    { title: "Accounts", src: "User", gap: true },
-    { title: "Schedule ", src: "Calendar" },
-    { title: "Search", src: "Search" },
-    { title: "Analytics", src: "Chart" },
-    { title: "Files ", src: "Folder", gap: true },
-    { title: "Setting", src: "Setting" },
+    { title: "Author",  icon:  <IoPeopleSharp size={50} color="bg-azul-oscuro" /> },
+    { title: "Inbox", icon: <TfiWrite size={45} color="bg-azul-oscuro" /> },
   ];
 
   return (
@@ -61,11 +56,12 @@ const Sidebar = () => {
             <li
               key={index}
               className={`flex  rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 
-              ${Menu.gap ? "mt-9" : "mt-2"} ${
+              ${"mt-2"} ${
+              // ${Menu.gap ? "mt-9" : "mt-2"} ${
                 index === 0 && "bg-light-white"
               } `}
             >
-              <img src={`./src/assets/${Menu.src}.png`} />
+               {Menu.icon}
               <span className={`${!open && "hidden"} origin-left duration-200`}>
                 {Menu.title}
               </span>
