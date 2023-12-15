@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import { IoPeopleSharp } from "react-icons/io5";
 import { TfiWrite } from "react-icons/tfi";
@@ -8,16 +9,16 @@ import { TfiWrite } from "react-icons/tfi";
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
   const Menus = [
-    { title: "Author",  icon:  <IoPeopleSharp size={50} color="bg-azul-oscuro" /> },
-    { title: "Inbox", icon: <TfiWrite size={45} color="bg-azul-oscuro" /> },
+    { title: "Author",  icon:  <IoPeopleSharp size={50} color="bg-azul-oscuro" /> , link : "admin/autores"},
+    { title: "Usuarios", icon: <TfiWrite size={45} color="bg-azul-oscuro" />, link :"admin/usuarios" },
   ];
 
   return (
-    <div className="flex">
+    <div className="flex rounded-r-xl">
       <div
         className={` ${
           open ? "w-72" : "w-20 "
-        }  h-screen p-5  pt-8 relative duration-300 bg-azul-claro`}
+        }  h-screen p-5  pt-8 relative duration-300 bg-azul-claro  rounded-r-xl`}
       >
         <button
           className={`absolute cursor-pointer -right-3 border-azul-claro top-9 
@@ -62,9 +63,9 @@ const Sidebar = () => {
               } `}
             >
                {Menu.icon}
-              <span className={`${!open && "hidden"} origin-left duration-200`}>
+              <Link href={Menu.link} className={`${!open && "hidden"} origin-left duration-200`}>
                 {Menu.title}
-              </span>
+              </Link>
             </li>
           ))}
         </ul>
