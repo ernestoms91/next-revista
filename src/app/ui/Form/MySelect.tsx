@@ -15,6 +15,7 @@ export const MySelect = ( { label, classNameLabel,classNameSelect, ...props }: P
 
     return (
         <>
+         <label className={`${classNameLabel}`} htmlFor={ props.name }>{ label }</label>
             <Field as="select"  className={ `${classNameSelect}` } { ...field } { ...props } name={props.name} id={props.name}/> 
             <ErrorMessage name={ props.name } component="h1" className='text-red-600 text-center text-xs italic  my-1 '/>
         </>

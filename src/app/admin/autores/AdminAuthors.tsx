@@ -7,82 +7,55 @@ import Edit from "@/app/ui/Edit";
 import Enable from "@/app/ui/Enable";
 import { useEffect, useState } from "react";
 import AddAuthor from "./AddAuthor";
+import { calcularTotalPaginas } from "@/app/lib/helpers/calcularTotalPaginas";
 
 
 const AdminAuthors = () => {
 
     const [authors, setAuthors] = useState<Array<author>>([]);
     const [authorEdit, setAuthorEdit] = useState<author>()
-    const [page, setPage] = useState(0);
+    const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
   
     const getAuthor = async () => {
       try {
   
-        const {data} = await revistaApi.get(`authors?page=${page}&size=10&sort=first_name,asc`)
-      setAuthors(data)
+       const {data} = await revistaApi.get(`authors?sort=first_name&page=${page}&size=10`)
+      setAuthors(data.items)
+      setTotalPages(data.pages)
     } catch (error) {
   console.log(error)
     }
     }
     
+    const handleDisable = async (id: string)=>{
+      const {data} = await revistaApi.delete(`authors/${id}`)
+      let authorsUpdated =authors.map(author=>{
+        if(author.id === parseInt(id)){
+          return {
+            ...author,
+            hidden: !author.hidden
+          }
+        }
+        return author
+      }
+      )}
   
-
   
-    const disabeAuthor = async (id: string) => {
-      // try {
-      //   const res = await fetch(
-      //     `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/delete/${id}`,
-      //     {
-      //       method: "DELETE",
-      //       headers: {
-      //         "Content-Type": "application/json",
-      //         Authorization: `Bearer ${session?.user?.jwt}`,
-      //       },
-      //     }
-      //   );
-  
-      //   const data = await res.json();
-      //   if (res.ok) {
-      //     toast.success("Usuario actualizado");
-      //   }else{
-      //     console.log(data);
-      //     return toast.error(data.msg);
-      //   }
-      //   const updatedUsers = users.map((user) => {
-      //     if (user.id === id) {
-      //       return {
-      //         ...user,
-      //         disable: !user.disable,
-      //       };
-      //     } else {
-      //       return user;
-      //     }
-      //   });
-      //   console.log(updatedUsers);
-      //   setUsers(updatedUsers);
-      // } catch (error: any) {
-      //   toast.error(error.msg);
-      //   console.error(error);
-      //   throw error;
-      // }
-    }
   
     useEffect(() => {
       getAuthor();
     }, [page]);
   
 
-
   return (
 
-    <div className="w-full mt-5">
+    <div className="w-full mt-5 overflow-x-auto">
     <h1 className="text-3xl my-2 text-center"> Gestionar autores</h1>
-    {/* <AddUser  userEdit={userEdit} setUserEdit={setUserEdit} users={users} setUsers={setUsers}/> */}
-    <AddAuthor authors={authors} setAuthors={setAuthors}/>
-    <div className="flex justify-center overflow-auto rounded-lg mx-2 my-5 ">
-      <table className="w-full border-2 rounded-lg shadow mx-2">
-        <thead className="bg-blue-300 border-b-2 border-x-azul-oscuro">
+    <div className=" overflow-x-auto rounded-lg mx-2 my-5 ">
+    <AddAuthor authors={authors} setAuthors={setAuthors} authorEdit={authorEdit} setAuthorEdit={setAuthorEdit} page={page}/>
+      <table className="w-full border-2 rounded-lg shadow mx-2  overflow-x-auto">
+        <thead className="bg-blue-300 border-b-2 border-x-azul-oscuro overflow-x-auto">
           <tr>
             <th className="p-3 text-lg font-semibold whitespace-nowrap tracking-wide text-left">
               No.
@@ -91,10 +64,10 @@ const AdminAuthors = () => {
               Nombre
             </th>
             <th className="p-3 text-lg font-semibold whitespace-nowrap tracking-wide text-left">
-              Apellido 1
+              Apellido
             </th>
             <th className="p-3 text-lg font-semibold whitespace-nowrap tracking-wide text-left">
-            Apellido 2
+            Apellido
             </th>
             <th className="p-3 text-lg font-semibold whitespace-nowrap tracking-wide text-left">
               Habilitar
@@ -104,7 +77,7 @@ const AdminAuthors = () => {
             </th>
           </tr>
         </thead>
-        <tbody className="divide-y">
+        <tbody className="divide-y overflow-x-auto">
           {authors &&
             authors.length > 0 &&
             authors.map((author: author, index) => (
@@ -125,13 +98,13 @@ const AdminAuthors = () => {
                   {author.second_lastname}
                 </td>
                 <td className="p-3 text-base whitespace-nowrap text-gray-600">
-                  <button onClick={() => {console.log("Tumbado")}}>
-                    {author.second_name ? <Disable /> : <Enable />}
+                  <button onClick={() => {handleDisable(author.id.toString())}}>
+                    {author.hidden ? <Disable /> : <Enable />}
                   </button>
                 </td>
                 <td className="p-3 text-base whitespace-nowrap text-gray-600">
                   <button 
-                  onClick={()=>{console.log("editando")}}>
+                  onClick={()=>setAuthorEdit(author)}>
                   <Edit />
                   </button>
               
@@ -145,15 +118,15 @@ const AdminAuthors = () => {
       <div className="p-3 flex justify-between gap-8">
         <button
           className="bg-blue-300 hover:bg-blue-400 text-gray-800 font-bold py-2 px-4 rounded-l"
-          disabled={page === 0 ? true : false}
+          disabled={page === 1 ? true : false}
           onClick={() => setPage(page - 1)}
         >
           Prev
         </button>
-        <p className="my-2 font-bold">{`${page + 1} - ${totalPages}`}</p>
+        <p className="my-2 font-bold">{`${page} - ${totalPages}`}</p>
         <button
           className="bg-blue-300 hover:bg-blue-400 text-blue-800 font-bold py-2 px-4 rounded-r"
-          disabled={page === totalPages - 1 ? true : false}
+          disabled={page === totalPages  ? true : false}
           onClick={() => setPage(page + 1)}
         >
           Next

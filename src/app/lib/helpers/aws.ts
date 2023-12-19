@@ -30,6 +30,7 @@ export const uploadImage = async (imageUrl: File) => {
       Bucket: bucketName,
       Key: objectKey,
       Body: imageUrl,
+      
       // Body: require("fs").createReadStream(filePath),
       ContentType: "image/jpeg", // Cambia el tipo de contenido según tu imagen
     };

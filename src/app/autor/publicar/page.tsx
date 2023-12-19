@@ -12,6 +12,7 @@ import dynamic from "next/dynamic";
 import { S3 } from "@aws-sdk/client-s3";
 import { uploadImage } from "../../lib/helpers/aws";
 import { putBucketPresignedURL } from "@/app/lib/helpers/aws2";
+import revistaApi from "@/app/lib/api/intranetApi";
 
 interface MyFormValues {
   image: null | File;
@@ -57,18 +58,18 @@ export default function EditorPage() {
               console.log(image?.type)
 
               {/* Codigo para subir imagen al minio */ }
-               const url = await putBucketPresignedURL('media', "wallpaper_1.jpg", image?.type as string)
-              const response = await fetch(url as string, {
-                method: 'PUT',
-                body: image,
-                headers: {
-                  'Content-Type': image?.type as string
-                }
-              });
+              //  const url = await putBucketPresignedURL('media', "wallpaper_1.jpg", image?.type as string)
+              //  console.log(url);
+              // const response = await fetch(url as string, {
+              //   method: 'PUT',
+              //   body: image,
+              //   headers: {
+              //     'Content-Type': image?.type as string
+              //   }
+              // });
+              uploadImage(image as File)
+              console.log(data)
 
-              if (!response.ok) {
-                throw new Error('Failed to upload file');
-              }
             } catch (error) {
               console.log(error);
             }
