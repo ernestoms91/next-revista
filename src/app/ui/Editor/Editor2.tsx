@@ -15,16 +15,24 @@ const Editor2 = () => {
       const [blocks, setBlocks] = useState<Block[] | null>(null);
       const editor: BlockNoteEditor | null = useBlockNote({ });  
   
-      editor.onEditorContentChange(() => {
-          // Get and log all top-level, i.e. non-nested blocks in the editor.
-          const blocks = editor.topLevelBlocks;
-          setBlocks(editor.topLevelBlocks)  
-          setFieldValue('contenido', blocks);    
-        });
+      // editor.onEditorContentChange(() => {
+      //     // Get and log all top-level, i.e. non-nested blocks in the editor.
+      //     const blocks = editor.topLevelBlocks;
+      //     setBlocks(editor.topLevelBlocks)  
+      //     // setFieldValue('contenido', blocks);    
+      //   });
+        const handleBlur = () => {
+          // El editor ha perdido el foco, realiza la acción que desees
+          const blocks = editor?.topLevelBlocks || [];
+          setBlocks(blocks);
+          setFieldValue('contenido', blocks);
+        };
 
   return (
     <>
-    <BlockNoteView editor={editor} />
+    <BlockNoteView editor={editor} 
+    onBlur={handleBlur}
+    />
     {/* <pre>{JSON.stringify(blocks, null, 2)}</pre> */}
     </>
   )

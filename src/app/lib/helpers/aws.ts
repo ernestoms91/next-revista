@@ -12,11 +12,13 @@ export const uploadImage = async (imageUrl: File) => {
     const { aws_access_key_id, aws_secret_access_key } = data;
     console.log(aws_access_key_id)
 
+  ;
+
     const s3Client = new S3Client({
       region: "us-east",
       credentials: {
-        accessKeyId: aws_access_key_id,
-        secretAccessKey: aws_secret_access_key,
+        accessKeyId: process.env.NEXT_PUBLIC_MINIO_USER as string,
+        secretAccessKey: process.env.NEXT_PUBLIC_MINIO_PASS as string,
       },
       endpoint: process.env.NEXT_PUBLIC_MINIO_URL,
       forcePathStyle: true, // Habilitar este flag para trabajar con MinIO

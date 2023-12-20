@@ -54,6 +54,7 @@ export default function EditorPage() {
           enableReinitialize={true}
           onSubmit={async (values) => {
             try {
+              console.log(values)
               let { image } = values;
               console.log(image?.type)
 

@@ -54,6 +54,7 @@ const Sidebar = () => {
         </div>
         <ul className="pt-6">
           {Menus.map((Menu, index) => (
+            <Link href={Menu.link}>
             <li
               key={index}
               className={`flex  rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 
@@ -63,10 +64,11 @@ const Sidebar = () => {
               } `}
             >
                {Menu.icon}
-              <Link href={Menu.link} className={`${!open && "hidden"} origin-left duration-200`}>
+              <p  className={`${!open && "hidden"} origin-left duration-200`}>
                 {Menu.title}
-              </Link>
+              </p>
             </li>
+            </Link>
           ))}
         </ul>
       </div>
