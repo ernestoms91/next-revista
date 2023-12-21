@@ -5,12 +5,14 @@ import Link from "next/link";
 import { useState } from "react";
 import { IoPeopleSharp } from "react-icons/io5";
 import { TfiWrite } from "react-icons/tfi";
+import { MdOutlineArticle } from "react-icons/md";
 
 const Sidebar = () => {
   const [open, setOpen] = useState(false);
   const Menus = [
     { title: "Author",  icon:  <IoPeopleSharp size={50} color="bg-azul-oscuro" /> , link : "/admin/autores"},
     { title: "Usuarios", icon: <TfiWrite size={45} color="bg-azul-oscuro" />, link :"/admin/usuarios" },
+    { title: "Articulos", icon: <MdOutlineArticle size={50} color="bg-azul-oscuro" />, link :"/admin/articulos" },
   ];
 
   return (

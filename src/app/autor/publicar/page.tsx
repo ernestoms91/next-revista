@@ -9,15 +9,14 @@ import { MyCheckbox } from "../../ui/Form/MyCheckbox";
 import { newInfoSchema } from "../../lib/helpers/yupSchemaInfoForm";
 import PreviewImage from "../../ui/Form/PreviewImage";
 import dynamic from "next/dynamic";
-import { S3 } from "@aws-sdk/client-s3";
 import { uploadImage } from "../../lib/helpers/aws";
-import { putBucketPresignedURL } from "@/app/lib/helpers/aws2";
 import revistaApi from "@/app/lib/api/intranetApi";
 
 interface MyFormValues {
   image: null | File;
   enunciado: string;
   autor: string;
+  titulo: string;
   resumen: string;
   etiquetas: Array<string>;
   secciones: Array<string>;
@@ -29,6 +28,7 @@ const initialValues: MyFormValues = {
   image: null,
   enunciado: "",
   autor: "",
+  titulo: "",
   resumen: "",
   etiquetas: [],
   secciones: [],
@@ -54,23 +54,21 @@ export default function EditorPage() {
           enableReinitialize={true}
           onSubmit={async (values) => {
             try {
-              console.log(values)
+              console.log(values);
               let { image } = values;
-              console.log(image?.type)
-
-              {/* Codigo para subir imagen al minio */ }
-              //  const url = await putBucketPresignedURL('media', "wallpaper_1.jpg", image?.type as string)
-              //  console.log(url);
-              // const response = await fetch(url as string, {
-              //   method: 'PUT',
-              //   body: image,
-              //   headers: {
-              //     'Content-Type': image?.type as string
-              //   }
-              // });
-              uploadImage(image as File)
+              let nombre = image?.name;
+              const url = uploadImage(image as File);
+              
+              const { data } = await revistaApi.post(`publications`, {
+                title: values.titulo,
+                section: values.secciones,
+                content: values.contenido,
+                important: false,
+                statement: values.resumen,
+                authors: [values.autor],
+                picture: nombre
+              });
               console.log(data)
-
             } catch (error) {
               console.log(error);
             }
@@ -138,6 +136,17 @@ export default function EditorPage() {
                   Upload
                 </button>
               </div>
+
+              {/* Añadir titulo */}
+              <MyTextInput
+                name="titulo"
+                classNameLabel="font-bold text-2xl  block"
+                label="Añadir titulo"
+                classNameInput={`bg-gris-claro block p-4  rounded-l-full rounded-t-full w-full border-2 ${
+                  errors.titulo && touched.titulo ? "border-rose-600" : ""
+                }`}
+                placeholder="Escriba el titulo aquí"
+              />
 
               {/* Añadir autor o autores */}
               <MyTextInput

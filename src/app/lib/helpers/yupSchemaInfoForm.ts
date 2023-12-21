@@ -29,6 +29,10 @@ export const newInfoSchema = () => {
     enunciado: Yup.string()
       .required("El enunciado es obligatorio")
       .min(2, "El enunciado es muy corto"),
+
+    titulo: Yup.string()
+      .required("El titulo es obligatorio")
+      .min(2, "El titulo es muy corto"),
       
     autor: Yup.string()
       .required("El autor es obligatorio")
