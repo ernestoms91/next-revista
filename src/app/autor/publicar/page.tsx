@@ -61,12 +61,13 @@ export default function EditorPage() {
               
               const { data } = await revistaApi.post(`publications`, {
                 title: values.titulo,
-                section: values.secciones,
-                content: values.contenido,
+                publication_type: "layman_article",
+                section: values.secciones[0],
+                content: "sdsdsds",
                 important: false,
-                statement: values.resumen,
-                authors: [values.autor],
-                picture: nombre
+                summary: values.resumen,
+                statement: values.enunciado,
+                authors: [1]
               });
               console.log(data)
             } catch (error) {

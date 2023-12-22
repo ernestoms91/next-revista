@@ -5,7 +5,7 @@ import { author } from "@/app/lib/interfaces/author";
 import Disable from "@/app/ui/Disable";
 import Edit from "@/app/ui/Edit";
 import Enable from "@/app/ui/Enable";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import AddAuthor from "./AddAuthor";
 import { calcularTotalPaginas } from "@/app/lib/helpers/calcularTotalPaginas";
 
@@ -52,7 +52,9 @@ const AdminAuthors = () => {
 
     <div className="w-full mt-5 overflow-x-auto">
     <h1 className="text-3xl my-2 text-center"> Gestionar autores</h1>
+   
     <div className=" overflow-x-auto rounded-lg mx-2 my-5 ">
+  
     <AddAuthor authors={authors} setAuthors={setAuthors} authorEdit={authorEdit} setAuthorEdit={setAuthorEdit} page={page}/>
       <table className="w-full border-2 rounded-lg shadow mx-2  overflow-x-auto">
         <thead className="bg-blue-300 border-b-2 border-x-azul-oscuro overflow-x-auto">
