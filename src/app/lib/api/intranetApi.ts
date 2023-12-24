@@ -6,15 +6,15 @@ const revistaApi = axios.create({
 });
 
 // // Todo: configurar interceptores
-revistaApi.interceptors.request.use( (config : any)=> {
+// revistaApi.interceptors.request.use( (config : any)=> {
 
-    config.headers = {
-        ...config.headers,
-        'access-control-allow-credentials': 'true'
-    }
+//     config.headers = {
+//         ...config.headers,
+//         'access-control-allow-credentials': 'true'
+//     }
 
-    return config;
-})
+//     return config;
+// })
 
 
 export default revistaApi;

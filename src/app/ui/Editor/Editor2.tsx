@@ -46,8 +46,15 @@ const Editor2 = () => {
   //     setBlocks(editor.topLevelBlocks)
   //     // setFieldValue('contenido', blocks);
   //   });
+
+
   const handleBlur = () => {
+    const saveBlocksAsHTML = async () => {
+      const html: string = await editor.blocksToHTMLLossy(editor.topLevelBlocks);
+      setFieldValue("content_html", html);
+    };
     // El editor ha perdido el foco, realiza la acción que desees
+    saveBlocksAsHTML();
     const blocks = editor?.topLevelBlocks || [];
     setBlocks(blocks);
     setFieldValue("contenido", blocks);

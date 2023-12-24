@@ -1,6 +1,7 @@
 import * as Yup from "yup";
 
-const MAX_FILE_SIZE = 102400; //100KB
+const MAX_FILE_SIZE = 1024000; //1000KB
+const ciRegex = /^[0-9]+$/;
 
 const validFileExtensions = {
   image: ["jpg", "gif", "png", "jpeg", "svg", "webp"],
@@ -36,8 +37,7 @@ export const newInfoSchema = () => {
       
     autor: Yup.string()
       .required("El autor es obligatorio")
-      .min(2, "El nombre del autor es muy corto")
-      .max(20, "El nombre del autor es muy largo"),
+      .matches(ciRegex, 'El id de autor no es válido'),
 
     resumen: Yup.string()
       .required("El resumen es obligatorio")

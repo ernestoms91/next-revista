@@ -22,6 +22,7 @@ interface MyFormValues {
   secciones: Array<string>;
   palabrasclaves: string;
   contenido: [];
+  content_html:string;
 }
 
 const initialValues: MyFormValues = {
@@ -34,6 +35,7 @@ const initialValues: MyFormValues = {
   secciones: [],
   palabrasclaves: "",
   contenido: [],
+  content_html:""
 };
 
 const Editor2 = dynamic(() => import("@/app/ui/Editor/Editor2"), {
@@ -64,11 +66,13 @@ export default function EditorPage() {
                 publication_type: "layman_article",
                 section: values.secciones[0],
                 educational_system: values.etiquetas[0],
-                content: values.contenido,
+                content: values.contenido.toString(),
                 important: false,
                 summary: values.resumen,
                 statement: values.enunciado,
-                authors: [1]
+                authors: [values.autor],
+                content_html:values.content_html,
+                picture: nombre
               });
               console.log(data)
             } catch (error) {
@@ -286,7 +290,7 @@ export default function EditorPage() {
                   type="submit"
                   className="  bg-azul-claro rounded-lg text-lg text-white px-8 py-2  "
                 >
-                  Publicar
+                  Enviar
                 </button>
               </div>
             </form>
