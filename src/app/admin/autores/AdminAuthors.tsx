@@ -5,7 +5,7 @@ import { author } from "@/app/lib/interfaces/author";
 import Disable from "@/app/ui/Disable";
 import Edit from "@/app/ui/Edit";
 import Enable from "@/app/ui/Enable";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import AddAuthor from "./AddAuthor";
 import { calcularTotalPaginas } from "@/app/lib/helpers/calcularTotalPaginas";
 

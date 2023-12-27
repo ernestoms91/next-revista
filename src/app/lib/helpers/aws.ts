@@ -5,7 +5,6 @@ import {
   GetObjectCommand,
 } from "@aws-sdk/client-s3";
 
-import revistaApi from "../api/intranetApi";
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 export const uploadImage = async (imageFile: File) => {
@@ -34,20 +33,22 @@ export const uploadImage = async (imageFile: File) => {
     const uploadParams = {
       Bucket: bucketName,
       Key: objectKey,
-      Body: imageFile,
-      
+      Body: imageFile, 
       ContentType: "image/jpeg", // Cambia el tipo de contenido según tu imagen
     };
 
     const uploadCommand = new PutObjectCommand(uploadParams);
     const datos = await s3Client.send(uploadCommand);
-    const presignedUrl = await getSignedUrl(s3Client, new GetObjectCommand({
-      Bucket: bucketName,
-      Key: objectKey,
-    }));
+    // const presignedUrl = await getSignedUrl(s3Client, new GetObjectCommand({
+    //   Bucket: bucketName,
+    //   Key: objectKey,
+    // }));
+
+     // Construye la URL pública directamente
+     const publicUrl = `${process.env.NEXT_PUBLIC_MINIO_URL}/${bucketName}/${nombre}`;
     
-    console.log("Imagen subida exitosamente:", presignedUrl);
-    return presignedUrl
+    console.log("Imagen subida exitosamente:", publicUrl);
+    return publicUrl
   } catch (error) {
     console.log(error);
   }

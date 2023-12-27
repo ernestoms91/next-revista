@@ -63,7 +63,7 @@ export default function EditorPage() {
               
               const { data } = await revistaApi.post(`publications`, {
                 title: values.titulo,
-                publication_type: "layman_article",
+                publication_type: "standard-publication",
                 section: values.secciones[0],
                 educational_system: values.etiquetas[0],
                 content: values.contenido.toString(),
