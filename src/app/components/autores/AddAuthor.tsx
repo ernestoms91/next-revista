@@ -1,10 +1,10 @@
 "use client";
 import { Formik, FormikHelpers } from "formik";
-import { MyTextInput } from "../../ui/Form/MyTextInput";
 import { newAuthorSchema } from "@/app/lib/helpers/yupSchemaAuthorForm";
 import revistaApi from "@/app/lib/api/intranetApi";
 import { author } from "@/app/lib/interfaces/author";
 import { Dispatch, SetStateAction } from "react";
+import { MyTextInput } from '@/app/components/ui/form/MyTextInput';
 
 interface MyFormValues {
   first_name: string;

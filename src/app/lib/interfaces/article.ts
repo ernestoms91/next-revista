@@ -27,5 +27,6 @@ export interface article {
     publicationType: string;
     id: number;
     schedule: string;
+    header_image_url: string;
     created_at: string;
   }

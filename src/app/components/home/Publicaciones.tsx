@@ -1,5 +1,5 @@
-import React from "react";
-import ArticuloCard from "../cards/ArticuloCard";
+
+import ArticuloCard from "@/app/components/ui/cards/ArticuloCard";
 import { informaciones } from "@/app/lib/home-data";
 
 const Publicaciones = () => {

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Navbar from "../ui/Navbar";
-import { CustomizedFooter } from "../ui/CustomizedFooter";
+import Navbar from "@/app/components/ui/Navbar";
+import { CustomizedFooter } from "@/app/components/ui/CustomizedFooter";
 
 
 export const metadata: Metadata = {

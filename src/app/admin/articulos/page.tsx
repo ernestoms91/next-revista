@@ -1,4 +1,4 @@
-import AdminAuthors from "@/app/admin/articulos/AdminArticulos";
+import AdminAuthors from "@/app/components/articulos/AdminArticulos";
 
 
 

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { equipoRealizacion } from "../lib/autor-data";
+import { equipoRealizacion } from "../../lib/autor-data";
 
 const AutorSlider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);

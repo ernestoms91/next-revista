@@ -8,9 +8,9 @@ import {
   redes,
   secciones,
   seccionesDesktop,
-} from "../lib/footer-data";
-import libro from "../../../public/202.svg";
-import { calcularTiempoLectura } from "../lib/helpers/calcularTiempoLectura ";
+} from "@/app/lib/footer-data";
+import libro from "../../../../public/202.svg";
+import { calcularTiempoLectura } from "@/app/lib/helpers/calcularTiempoLectura ";
 
 const otros = ["Sobre nosotros", "Para autores"];
 

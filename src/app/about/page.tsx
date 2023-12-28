@@ -1,5 +1,6 @@
-import Navbar from "../ui/Navbar";
-import AutorSlider from './AutorSlider';
+import Navbar from '@/app/components/ui/Navbar';
+import AutorSlider from '@/app/components/about/AutorSlider';
+
 
 export default function AboutPage() {
   return (

@@ -1,8 +1,8 @@
 import React from "react";
-import ArticuloCard from "../cards/ArticuloCard";
+import ArticuloCard from "@/app/components/ui/cards/ArticuloCard";
 import { informaciones } from "@/app/lib/home-data";
-import ArticuloNormalCard from "../cards/ArticuloNormalCard";
-import Publicidad from "../cards/Publicidad";
+import ArticuloNormalCard from "@/app/components/ui/cards/ArticuloNormalCard";
+import Publicidad from "@/app/components/ui/cards/Publicidad";
 
 const PublicacionesDesktop = () => {
   return (

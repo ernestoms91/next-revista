@@ -1,5 +1,5 @@
 
-import AdminAuthors from "./AdminUser";
+import AdminAuthors from "../../components/usuarios/AdminUser";
 
 
 export default function EditorPage() {

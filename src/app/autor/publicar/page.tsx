@@ -2,12 +2,12 @@
 import { Formik } from "formik";
 import { useRef, useState } from "react";
 import Image from "next/image";
-import { MyTextInput } from "../../ui/Form/MyTextInput";
-import { MyTextarea } from "../../ui/Form/MyTextarea";
+import { MyTextInput } from "@/app/components/ui/form/MyTextInput";
+import { MyTextarea } from "@/app/components/ui/form/MyTextarea";
 import { etiquetas, secciones } from "../../lib/publicacion-data";
-import { MyCheckbox } from "../../ui/Form/MyCheckbox";
+import { MyCheckbox } from "@/app/components/ui/form/MyCheckbox";
 import { newInfoSchema } from "../../lib/helpers/yupSchemaInfoForm";
-import PreviewImage from "../../ui/Form/PreviewImage";
+import PreviewImage from "@/app/components/ui/form/PreviewImage";
 import dynamic from "next/dynamic";
 import { uploadImage } from "../../lib/helpers/aws";
 import revistaApi from "@/app/lib/api/intranetApi";
@@ -38,7 +38,7 @@ const initialValues: MyFormValues = {
   content_html:""
 };
 
-const Editor2 = dynamic(() => import("@/app/ui/Editor/Editor2"), {
+const Editor2 = dynamic(() => import("@/app/components/ui/editor/Editor2"), {
   ssr: false,
 });
 
@@ -61,7 +61,7 @@ export default function EditorPage() {
               let nombre = image?.name;
               const url = uploadImage(image as File);
               
-              const { data } = await revistaApi.post(`publications`, {
+              const { data } = await revistaApi.post(`standard_publications`, {
                 title: values.titulo,
                 publication_type: "standard-publication",
                 section: values.secciones[0],
@@ -72,7 +72,7 @@ export default function EditorPage() {
                 statement: values.enunciado,
                 authors: [values.autor],
                 content_html:values.content_html,
-                picture: nombre
+                header_image_url: nombre
               });
               console.log(data)
             } catch (error) {

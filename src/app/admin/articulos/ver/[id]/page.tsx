@@ -3,9 +3,11 @@ import { calcularTiempoLectura } from "@/app/lib/helpers/calcularTiempoLectura "
 import parse from "html-react-parser";
 import { author } from '../../../../lib/interfaces/author';
 import { formatearFecha } from "@/app/lib/helpers/formatearFecha";
+import Image from "next/image";
 
 export default async function VerPage({ params }: { params: { id: string } }) {
-  const { data } = await revistaApi.get(`publications/${params.id}`);
+  const { data } = await revistaApi.get(`standard_publications/${params.id}`);
+  const publicUrl = `${process.env.NEXT_PUBLIC_MINIO_URL}/media/${data.header_image_url}`;
 
   return (
     <div className="grid justify-normal  ">
@@ -24,7 +26,7 @@ export default async function VerPage({ params }: { params: { id: string } }) {
         </div>
         {/* //TODO: Autor desde el backend */}
         <p className="italic text-lg text-center text-gris-oscuro">Por: <span className="font-semibold underline">Revista Educación, Magdalena Rodríguez, Diosvany Ortega</span> <span className="mx-4">{formatearFecha(data.created_at)}</span> </p>
-        {/* <Image src={data.image} alt={data.title} width={200} height={200} /> */}
+        <Image src={publicUrl} alt={data.title} className='my-8 rounded-t-xl rounded-l-xl lg:mx-auto' width={1280} height={720} />
         <div className="text-xl my-4 space-y-6">
         {parse(data.content_html)}
         </div>

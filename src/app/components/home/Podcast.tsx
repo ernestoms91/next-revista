@@ -1,9 +1,8 @@
-import React from "react";
-import ArticuloCard from "../cards/ArticuloCard";
+
 import { informaciones, podcasts } from "@/app/lib/home-data";
-import PodcastDestacado from "../cards/PodcastDestacado";
-import PodcastNormal from "../cards/PodcastNormal";
-import PodcastProximo from "../cards/PodcastProximo";
+import PodcastDestacado from "@/app/components/ui/cards/PodcastDestacado";
+import PodcastNormal from "@/app/components/ui/cards/PodcastNormal";
+import PodcastProximo from "@/app/components/ui/cards/PodcastProximo";
 
 const Podcast = () => {
   return (

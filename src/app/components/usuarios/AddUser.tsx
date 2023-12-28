@@ -1,11 +1,11 @@
 "use client";
 import { Formik, FormikHelpers } from "formik";
-import { MyTextInput } from "../../ui/Form/MyTextInput";
 import revistaApi from "@/app/lib/api/intranetApi";
 import { Dispatch, SetStateAction } from "react";
 import { user } from "@/app/lib/interfaces/users";
-import { MySelect } from "@/app/ui/Form/MySelect";
 import { editUserSchema, newUserSchema } from "@/app/lib/helpers/yupSchemaUserForm";
+import { MyTextInput} from "@/app/components/ui/form/MyTextInput";
+import {  MySelect} from "@/app/components/ui/form/MySelect";
 
 
 interface Iprop {

@@ -1,9 +1,9 @@
 "use client";
 
 import revistaApi from "@/app/lib/api/intranetApi";
-import Disable from "@/app/ui/Disable";
-import Edit from "@/app/ui/Edit";
-import Enable from "@/app/ui/Enable";
+import Disable from "@/app/components/ui/Disable";
+import Edit from "@/app/components/ui/Edit";
+import Enable from "@/app/components/ui/Enable";
 import { useEffect, useState } from "react";
 import { user } from "@/app/lib/interfaces/users";
 import AddUser from "./AddUser";

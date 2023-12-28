@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Navbar from "../ui/Navbar";
-import { CustomizedFooter } from "../ui/CustomizedFooter";
-import Sidebar from "../ui/Sidebar";
+import Navbar from "@/app/components/ui/Navbar";
+import { CustomizedFooter } from "@/app/components/ui/CustomizedFooter";
+import Sidebar from "@/app/components/ui/Sidebar";
 
 
 export const metadata: Metadata = {

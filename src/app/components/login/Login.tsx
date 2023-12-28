@@ -1,10 +1,10 @@
 'use client'
 
 import { Formik, FormikHelpers } from "formik";
-import { MyTextInput } from "../ui/Form/MyTextInput";
-import Navbar from "../ui/Navbar";
-import { MyPassInput } from "../ui/MyPassInput";
 import * as Yup from "yup";
+import Navbar from "@/app/components/ui/Navbar";
+import { MyTextInput } from "@/app/components/ui/form/MyTextInput";
+import { MyPassInput } from "@/app/components/ui/MyPassInput";
 
 
 interface MyFormValues {
