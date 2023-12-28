@@ -63,7 +63,7 @@ const Editor2 = () => {
   return (
     <>
       <BlockNoteView editor={editor} onBlur={handleBlur} />
-      {/* <pre>{JSON.stringify(blocks, null, 2)}</pre> */}
+      <pre>{JSON.stringify(blocks, null, 2)}</pre>
     </>
   );
 };

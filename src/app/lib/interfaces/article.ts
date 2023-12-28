@@ -12,6 +12,10 @@ interface Section {
     social_media_handles: [];
   }
 
+  interface EducationalSystem {
+    name: string;
+  }
+
 export interface article {
     title: string;
     section: Section;
@@ -19,7 +23,7 @@ export interface article {
     important: boolean;
     statement: string;
     authors: Author[];
-    educationalSystem: string;
+    educational_system: EducationalSystem;
     draft: boolean;
     summary: string;
     quotes: string[];

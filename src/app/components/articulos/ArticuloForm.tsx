@@ -19,8 +19,8 @@ interface MyFormValues {
   autor: string;
   titulo: string;
   resumen: string;
-  etiquetas: Array<string>;
-  secciones: Array<string>;
+  etiquetas: string;
+  secciones: string;
   palabrasclaves: string;
   contenido: [];
   content_html:string;
@@ -40,15 +40,27 @@ const ArticuloForm = ({article}: ArticuloFormProps) => {
 
   const initialValues: MyFormValues = {
     image: "",
-    enunciado: "",
+    enunciado: article.statement,
     autor: "",
-    titulo: "",
-    resumen: "",
-    etiquetas: [],
-    secciones: [],
+    titulo: article.title,
+    resumen: article.summary,
+    etiquetas: article.educational_system.name,
+    secciones: article.section.name,
     palabrasclaves: "",
-    contenido: [],
+    contenido: article.content,
     content_html:""
+
+    // title: values.titulo,
+    // publication_type: "standard-publication",
+    // section: values.secciones[0],
+    // educational_system: values.etiquetas[0],
+    // content: values.contenido.toString(),
+    // important: false,
+    // summary: values.resumen,
+    // statement: values.enunciado,
+    // authors: [values.autor],
+    // content_html:values.content_html,
+    // header_image_url: nombre
   };
 
 
@@ -69,7 +81,7 @@ const ArticuloForm = ({article}: ArticuloFormProps) => {
           title: values.titulo,
           publication_type: "standard-publication",
           section: values.secciones[0],
-          educational_system: values.etiquetas[0],
+          educational_system: values.etiquetas,
           content: values.contenido.toString(),
           important: false,
           summary: values.resumen,

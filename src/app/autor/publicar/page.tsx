@@ -60,13 +60,14 @@ export default function EditorPage() {
               let { image } = values;
               let nombre = image?.name;
               const url = uploadImage(image as File);
+              console.log(JSON.stringify(values.contenido))
               
               const { data } = await revistaApi.post(`standard_publications`, {
                 title: values.titulo,
                 publication_type: "standard-publication",
                 section: values.secciones[0],
                 educational_system: values.etiquetas[0],
-                content: values.contenido.toString(),
+                content: JSON.stringify(values.contenido),
                 important: false,
                 summary: values.resumen,
                 statement: values.enunciado,
@@ -74,7 +75,7 @@ export default function EditorPage() {
                 content_html:values.content_html,
                 header_image_url: nombre
               });
-              console.log(data)
+              console.log(JSON.stringify(values.contenido))
             } catch (error) {
               console.log(error);
             }
