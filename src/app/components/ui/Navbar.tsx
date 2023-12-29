@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { MouseEventHandler, useState } from "react";
+
 import {
   escolaridad,
   otrosNav,
@@ -10,7 +11,6 @@ import {
   seccionesDesktop,
 } from "@/app/lib/footer-data";
 import libro from "../../../../public/202.svg";
-import { calcularTiempoLectura } from "@/app/lib/helpers/calcularTiempoLectura ";
 
 const otros = ["Sobre nosotros", "Para autores"];
 

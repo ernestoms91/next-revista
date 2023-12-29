@@ -6,6 +6,8 @@ import { useState } from "react";
 import { IoPeopleSharp } from "react-icons/io5";
 import { TfiWrite } from "react-icons/tfi";
 import { MdOutlineArticle } from "react-icons/md";
+import { signOut, useSession } from "next-auth/react";
+import { CiLogout } from "react-icons/ci";
 
 const Sidebar = () => {
   const [open, setOpen] = useState(false);
@@ -71,7 +73,19 @@ const Sidebar = () => {
               </p>
             </li>
             </Link>
-          ))}
+          )
+          
+          )}
+            <li
+              className={`flex  rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 `}
+              onClick={()=>signOut()}
+            >
+               { <CiLogout size={50} color="bg-azul-oscuro" /> }
+              <p  className={`${!open && "hidden"} origin-left duration-200`}>
+                Salir
+              </p>
+            </li>
+
         </ul>
       </div>
     </div>

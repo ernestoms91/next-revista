@@ -11,5 +11,6 @@ export interface user{
     "role": string;
     "active": boolean,
     "avatar": string;
+    "biography": string | null;
     "id":number;
 }

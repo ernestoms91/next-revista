@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import SessionAuthProvider from '@/app/context/SessionAuthProvider'
 import { Roboto } from "next/font/google";
 import "./globals.css";
 const roboto = Roboto({ subsets: ["latin"], weight: "400", style: "normal" });
@@ -16,7 +17,9 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={roboto.className}>
+      <SessionAuthProvider>
         {children}
+        </SessionAuthProvider>
       </body>
 
     </html>
