@@ -53,7 +53,7 @@ const Login = () => {
               setErrors(responseNextAuth.error.split(","));
               return;
             }
-            router.push("/admin/usuarios");
+             router.push("/admin/usuarios");
           }}
         >
           {({
