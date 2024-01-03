@@ -1,4 +1,5 @@
 import * as Yup from "yup";
+import { etiquetas, secciones } from "../publicacion-data";
 
 const MAX_FILE_SIZE = 1024000; //1000KB
 const ciRegex = /^[0-9]+$/;
@@ -34,10 +35,10 @@ export const newInfoSchema = () => {
     titulo: Yup.string()
       .required("El titulo es obligatorio")
       .min(2, "El titulo es muy corto"),
-      
+
     autor: Yup.string()
       .required("El autor es obligatorio")
-      .matches(ciRegex, 'El id de autor no es válido'),
+      .matches(ciRegex, "El id de autor no es válido"),
 
     resumen: Yup.string()
       .required("El resumen es obligatorio")
@@ -55,12 +56,15 @@ export const newInfoSchema = () => {
       ),
 
     etiquetas: Yup.array()
-      .min(1, " Debe seleccionar al menos una etiqueta")
-      .max(1, " Solo debe seleccionar una etiqueta"),
+      .required("Nivel educativo requerido")
+      .min(1, " El nivel educativo no puede estar vacío")
+      .max(1, "Seleccione solo uno"),
 
     secciones: Yup.array()
-      .min(1, " Debe seleccionar al menos una sección")
-      .max(1, " Solo debe seleccionar una sección"),
+      .required("Seccion requerida")
+      .min(1, " La  seccion no puede estar vacío")
+      .max(1, "Seleccione solo uno"),
+
 
     palabrasclaves: Yup.string()
       .required("Las palabras claves son obligatorias")
@@ -77,6 +81,6 @@ export const newInfoSchema = () => {
         }
       ),
 
-    contenido: Yup.array().min(2, " El contenido no puede estar vacío"),
+    // contenido: Yup.array().min(2, " El contenido no puede estar vacío"),
   });
 };

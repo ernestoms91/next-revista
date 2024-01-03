@@ -1,6 +1,6 @@
 "use client";
 import { Formik } from "formik";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { MyTextInput } from "@/app/components/ui/form/MyTextInput";
 import { MyTextarea } from "@/app/components/ui/form/MyTextarea";
@@ -11,71 +11,92 @@ import PreviewImage from "@/app/components/ui/form/PreviewImage";
 import dynamic from "next/dynamic";
 import { uploadImage } from "../../lib/helpers/aws";
 import revistaApi from "@/app/lib/api/intranetApi";
+import { article } from "@/app/lib/interfaces/article";
 
 interface MyFormValues {
-  image: null | File;
+  image: undefined | File;
   enunciado: string;
   autor: string;
   titulo: string;
   resumen: string;
-  etiquetas: Array<string>;
-  secciones: Array<string>;
+  etiquetas: string;
+  secciones: string;
   palabrasclaves: string;
-  contenido: [];
-  content_html:string;
+  // contenido: [];
+  // content_html: string;
 }
-
-const initialValues: MyFormValues = {
-  image: null,
-  enunciado: "",
-  autor: "",
-  titulo: "",
-  resumen: "",
-  etiquetas: [],
-  secciones: [],
-  palabrasclaves: "",
-  contenido: [],
-  content_html:""
-};
 
 const Editor2 = dynamic(() => import("@/app/components/ui/editor/Editor2"), {
   ssr: false,
 });
 
 export default function EditorPage() {
+  const [contenido, setContenido] = useState([])
+  const [content_html, setContent_html] = useState("")
+  const [editorKey, setEditorKey] = useState(Date.now());
+ const [error, setError] = useState(false)
   const imageRef = useRef<HTMLInputElement | null>(null);
-  const [data, setData] = useState();
+  const publishButtonRef = useRef<HTMLButtonElement | null>(null);
+  
+
+  const handleCubaButtonClick = () => {
+    // Verifica si la referencia del botón "Publicar" existe
+    if (publishButtonRef.current) {
+      // Simula un clic en el botón "Publicar"
+      publishButtonRef.current.click();
+    }
+  };
+
+  const initialValues: MyFormValues = {
+    image: undefined,
+    enunciado: " ",
+    autor: "",
+    titulo: "",
+    resumen: "",
+    etiquetas: "",
+    secciones: "",
+    palabrasclaves: "",
+    // contenido: [],
+    // content_html: "",
+  };
 
   return (
     <>
-      <div className="grid  place-items-center my-2">
-        <h1 className="text-xl font-bold">Nueva publicaciones</h1>
+      <div className="grid  place-items-center my-5">
+        <h1 className="text-3xl font-bold">Nuevo artículo</h1>
         <Formik
           initialValues={initialValues}
           validationSchema={newInfoSchema}
           enableReinitialize={true}
-          onSubmit={async (values) => {
+          onSubmit={async (values, actions) => {
             try {
               console.log(values);
               let { image } = values;
               let nombre = image?.name;
               const url = uploadImage(image as File);
-              console.log(JSON.stringify(values.contenido))
-              
+             if(contenido.length === 0 || !content_html){
+              setError(true)
+              console.log("contenido o  content_html vacio ")
+              return
+             }
+             setError(false)
               const { data } = await revistaApi.post(`standard_publications`, {
                 title: values.titulo,
                 publication_type: "standard-publication",
                 section: values.secciones[0],
                 educational_system: values.etiquetas[0],
-                content: JSON.stringify(values.contenido),
+                content: JSON.stringify(contenido),
                 important: false,
                 summary: values.resumen,
                 statement: values.enunciado,
                 authors: [values.autor],
-                content_html:values.content_html,
-                header_image_url: nombre
+                content_html: content_html,
+                header_image_url: nombre,
               });
-              console.log(JSON.stringify(values.contenido))
+              setContenido([])
+              setEditorKey(Date.now())
+              // console.log(JSON.stringify(values.contenido));
+              actions.resetForm();
             } catch (error) {
               console.log(error);
             }
@@ -93,7 +114,7 @@ export default function EditorPage() {
             isSubmitting,
           }) => (
             <form
-              className="  p-2 w-full space-y-3 md:space-y-6 md:w-10/12"
+              className="  p-2 w-full space-y-3 md:space-y-6 md:w-10/12 "
               onSubmit={handleSubmit}
             >
               {/* Añadir imagen */}
@@ -126,11 +147,13 @@ export default function EditorPage() {
                     />
                   </div>
                 )}
-                {errors.image && touched.image && (
-                  <h1 className="text-red-600 text-center text-xs italic  my-1">
-                    {errors.image}
-                  </h1>
-                )}
+                {errors.image &&
+                  touched.image &&
+                  typeof errors.image === "string" && (
+                    <h1 className="text-red-600 text-center text-xs italic my-1">
+                      {errors.image}
+                    </h1>
+                  )}
                 <button
                   className="bg-azul-claro p-2 flex justify-center items-center rounded my-2"
                   type="button"
@@ -231,7 +254,7 @@ export default function EditorPage() {
                 {secciones.map((e) => (
                   <MyCheckbox
                     classNameInput="hidden peer"
-                    classNameLabel={`  peer-checked:bg-red-600`}
+                    classNameLabel={` peer-checked:bg-red-600`}
                     classNameDiv="inline bg-white  border-2  border-azul-claro text-azul-claro font-bold rounded-l-full rounded-t-full p-2 peer-checked:bg-blue-100  text-lg"
                     key={e}
                     label={e}
@@ -259,45 +282,42 @@ export default function EditorPage() {
                 placeholder="Palabras claves"
               />
 
-              {/* Añadir contenido  */}
-              <h1 className="font-bold text-2xl my-2">Añadir contenido</h1>
-
-              <div
-                className={` ${
-                  errors.contenido && touched.contenido
-                    ? " border-2 border-rose-600"
-                    : ""
-                }`}
-              >
-                <div className="border rounded-md">
-                  <Editor2 />
-                </div>
-              </div>
-              {errors.contenido && touched.contenido && (
-                <h1 className="text-red-600 text-center text-xs italic  my-1">
-                  {errors.contenido}
-                </h1>
-              )}
-
-              {/*Botones salvar y publicar*/}
-              <div className="flex gap-4 justify-between">
-                <button
-                  type="submit"
-                  className="  bg-gris-claro rounded-lg text-lg text-white px-8 py-2  "
-                >
-                  Guardar
-                </button>
-                <button
-                  type="submit"
-                  className="  bg-azul-claro rounded-lg text-lg text-white px-8 py-2  "
-                >
-                  Enviar
-                </button>
-              </div>
+              <button ref={publishButtonRef} className="hidden">
+                Cuba
+              </button>
             </form>
           )}
         </Formik>
-      </div>
+
+        <div className="grid items-center w-10/12">
+          < div>
+          {/* Añadir contenido  */}
+            <h1 className="font-bold text-2xl my-2 mx-2">Añadir contenido</h1>
+            <div  className={ error ? " border-2 border-rose-600"
+                    : ""}>
+               <Editor2 key={editorKey} setContenido={setContenido} setContent_html={setContent_html} contenido={contenido}/>
+            </div>
+            {error && (
+                <h1 className="text-red-600 text-center text-xs italic  my-1">
+                  Revise el contenido
+                </h1>
+              )}
+          </div>
+          </div>
+
+
+
+          {/*Botones salvar y publicar*/}
+          <div className="grid items-center w-10/12 my-4">
+            <button
+              onClick={handleCubaButtonClick}
+              type="submit"
+              className="  bg-azul-claro rounded-lg text-lg text-white px-8 py-2 "
+            >
+              Enviar
+            </button>
+          </div>
+        </div>
     </>
   );
 }

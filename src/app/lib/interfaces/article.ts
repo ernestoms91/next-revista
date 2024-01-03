@@ -4,6 +4,7 @@ interface Section {
   }
 
   interface Author {
+    id: string;
     description: string;
     first_name: string;
     second_name: string;
@@ -33,4 +34,6 @@ export interface article {
     schedule: string;
     header_image_url: string;
     created_at: string;
+    published_at: string;
+    content_html:string;
   }

@@ -1,6 +1,6 @@
 "use client";
 import { Formik } from "formik";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { MyTextInput } from "@/app/components/ui/form/MyTextInput";
 import { MyTextarea } from "@/app/components/ui/form/MyTextarea";
@@ -12,21 +12,22 @@ import dynamic from "next/dynamic";
 import { uploadImage } from "../../lib/helpers/aws";
 import revistaApi from "@/app/lib/api/intranetApi";
 import { article } from "@/app/lib/interfaces/article";
+import { MyDateInput2 } from "../ui/form/MyDateInput2";
+import { MyDateInput } from "../ui/form/MyDateInput";
 
 interface MyFormValues {
-  image: null | File;
+  image: File;
   enunciado: string;
   autor: string;
   titulo: string;
   resumen: string;
-  etiquetas: string;
-  secciones: string;
+  etiquetas: string[];
+  secciones: string[];
   palabrasclaves: string;
   contenido: [];
-  content_html:string;
+  content_html: string;
+  fecha: string;
 }
-
-
 
 const Editor2 = dynamic(() => import("@/app/components/ui/editor/Editor2"), {
   ssr: false,
@@ -36,283 +37,362 @@ interface ArticuloFormProps {
   article: article;
 }
 
-const ArticuloForm = ({article}: ArticuloFormProps) => {
+const ArticuloForm = ({ article }: ArticuloFormProps) => {
+  const [contenido, setContenido] = useState([]);
+  const [content_html, setContent_html] = useState("");
+  const [editorKey, setEditorKey] = useState(Date.now());
+  const [error, setError] = useState(false);
+  const imageRef = useRef<HTMLInputElement | null>(null);
+  const publishButtonRef = useRef<HTMLButtonElement | null>(null);
 
-  const initialValues: MyFormValues = {
-    image: "",
-    enunciado: article.statement,
-    autor: "",
-    titulo: article.title,
-    resumen: article.summary,
-    etiquetas: article.educational_system.name,
-    secciones: article.section.name,
-    palabrasclaves: "",
-    contenido: article.content,
-    content_html:""
+  const [initialValues, setInitialValues] = useState<MyFormValues | null>(null);
+  const [data, setData] = useState();
 
-    // title: values.titulo,
-    // publication_type: "standard-publication",
-    // section: values.secciones[0],
-    // educational_system: values.etiquetas[0],
-    // content: values.contenido.toString(),
-    // important: false,
-    // summary: values.resumen,
-    // statement: values.enunciado,
-    // authors: [values.autor],
-    // content_html:values.content_html,
-    // header_image_url: nombre
+  const jsonObj = JSON.parse(article.content);
+  let seccionesCapitalizado =
+    article.section.name.charAt(0).toUpperCase() +
+    article.section.name.slice(1);
+  let etiquetasCapitalizado =
+    article.educational_system.name.charAt(0).toUpperCase() +
+    article.educational_system.name.slice(1);
+
+  const fetchImageAndCreateFile = async () => {
+    try {
+      const publicUrl = `${process.env.NEXT_PUBLIC_MINIO_URL}/media/${article.header_image_url}`;
+      const response = await fetch(publicUrl);
+      const blob = await response.blob();
+
+      // Aquí puedes realizar operaciones adicionales con el blob si es necesario
+
+      // Crear un objeto File a partir del blob
+      const fileName = publicUrl.substring(publicUrl.lastIndexOf("/") + 1);
+      const file = new File([blob], fileName, { type: blob.type });
+
+      return file;
+    } catch (error) {
+      console.error("Error al obtener la imagen:", error);
+      throw error;
+    }
   };
 
+  const handleCubaButtonClick = () => {
+    // Verifica si la referencia del botón "Publicar" existe
+    if (publishButtonRef.current) {
+      // Simula un clic en el botón "Publicar"
+      publishButtonRef.current.click();
+    }
+  };
 
+  const cargarDatosIniciales = async () => {
+    try {
+      const imagen = await fetchImageAndCreateFile();
+      setContent_html(article.content_html);
+      setContenido(jsonObj);
+      //Todo: Palabras claves del backend
+      const initialValues: MyFormValues = {
+        image: imagen, // Ahora image recibe directamente el objeto File
+        enunciado: article.statement,
+        autor: article.authors[0].id,
+        titulo: article.title,
+        resumen: article.summary,
+        etiquetas: [etiquetasCapitalizado],
+        secciones: [seccionesCapitalizado],
+        palabrasclaves: "Bien hecho",
+        contenido: jsonObj,
+        content_html: article.content_html,
+        fecha: article.published_at ? article.published_at : "",
+      };
+
+      setInitialValues(initialValues);
+    } catch (error) {
+      console.error("Error al cargar datos iniciales:", error);
+    }
+  };
+
+  useEffect(() => {
+    cargarDatosIniciales();
+  }, []);
+
+  if (!initialValues) {
+    // Puedes renderizar un mensaje de carga o simplemente esperar hasta que initialValues esté listo
+    return <p>Cargando datos iniciales...</p>;
+  }
 
   return (
-    <Formik
-    initialValues={initialValues}
-    validationSchema={newInfoSchema}
-    enableReinitialize={true}
-    onSubmit={async (values) => {
-      try {
-        console.log(values);
-        let { image } = values;
-        let nombre = image?.name;
-        const url = uploadImage(image as File);
-        
-        const { data } = await revistaApi.post(`standard_publications`, {
-          title: values.titulo,
-          publication_type: "standard-publication",
-          section: values.secciones[0],
-          educational_system: values.etiquetas,
-          content: values.contenido.toString(),
-          important: false,
-          summary: values.resumen,
-          statement: values.enunciado,
-          authors: [values.autor],
-          content_html:values.content_html,
-          header_image_url: nombre
-        });
-        console.log(data)
-      } catch (error) {
-        console.log(error);
-      }
-    }}
-  >
-    {({
-      values,
-      errors,
-      setFieldValue,
-      setTouched,
-      touched,
-      handleChange,
-      handleBlur,
-      handleSubmit,
-      isSubmitting,
-    }) => (
-      <form
-        className="  p-2 w-full space-y-3 md:space-y-6 md:w-10/12"
-        onSubmit={handleSubmit}
-      >
-        {/* Añadir imagen */}
-        {/* <div className="w-full">
-          <h1 className="font-bold text-2xl my-2">
-            Añadir imagen principal
-          </h1>
-          <input
-            ref={imageRef}
-            type="file"
-            hidden
-            onChange={(event) => {
-              if (event.target.files) {
-                setFieldValue("image", event.target.files[0]);
+    <>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={newInfoSchema}
+        enableReinitialize={true}
+        onSubmit={async (values) => {
+          try {
+            console.log(values);
+            let { image } = values;
+            let nombre = image?.name;
+            const url = uploadImage(image as File);
+            if (contenido.length === 0 || !content_html) {
+              setError(true);
+              console.log("contenido o  content_html vacio ");
+              return;
+            }
+            setError(false);
+
+            const { data } = await revistaApi.put(
+              `standard_publications/${article.id}`,
+              {
+                title: values.titulo,
+                publication_type: "standard-publication",
+                section: values.secciones[0],
+                educational_system: values.etiquetas[0],
+                content: JSON.stringify(values.contenido),
+                important: false,
+                summary: values.resumen,
+                statement: values.enunciado,
+                authors: [values.autor],
+                content_html: values.content_html,
+                header_image_url: nombre,
+                published_at: values.fecha,
               }
-            }}
-          />
-          {values.image && <PreviewImage file={values.image} />}
-          {!values.image && (
+            );
+            setContenido([]);
+            setEditorKey(Date.now());
+            console.log(JSON.stringify(values.contenido));
+          } catch (error) {
+            console.log(error);
+          }
+        }}
+      >
+        {({
+          values,
+          errors,
+          setFieldValue,
+          setTouched,
+          touched,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          isSubmitting,
+        }) => (
+          <form
+            className="  p-2 w-full space-y-3 md:space-y-6 md:w-10/12 w-full"
+            onSubmit={handleSubmit}
+          >
+            {/* Añadir imagen */}
+            <div className="w-full">
+              <h1 className="font-bold text-2xl my-2">
+                Añadir imagen principal
+              </h1>
+              <input
+                ref={imageRef}
+                type="file"
+                hidden
+                onChange={(event) => {
+                  if (event.target.files) {
+                    setFieldValue("image", event.target.files[0]);
+                  }
+                }}
+              />
+              {values.image && <PreviewImage file={values.image} />}
+              {!values.image && (
+                <div
+                  className={`bg-gris-claro  rounded-lg  p-40 flex items-center justify-center  border-2 ${
+                    errors.image && touched.image ? "border-rose-600" : ""
+                  }`}
+                >
+                  <Image
+                    src={"/vector.svg"}
+                    alt="preview"
+                    width={80}
+                    height={80}
+                  />
+                </div>
+              )}
+              {errors.image &&
+                touched.image &&
+                typeof errors.image === "string" && (
+                  <h1 className="text-red-600 text-center text-xs italic my-1">
+                    {errors.image}
+                  </h1>
+                )}
+              <button
+                className="bg-azul-claro p-2 flex justify-center items-center rounded my-2"
+                type="button"
+                onClick={() => {
+                  if (imageRef.current) {
+                    imageRef.current.click();
+                  }
+                }}
+              >
+                Upload
+              </button>
+            </div>
+
+            {/* Añadir titulo */}
+            <MyTextInput
+              name="titulo"
+              classNameLabel="font-bold text-2xl  block"
+              label="Añadir titulo"
+              classNameInput={`bg-gris-claro block p-4  rounded-l-full rounded-t-full w-full border-2 ${
+                errors.titulo && touched.titulo ? "border-rose-600" : ""
+              }`}
+              placeholder="Escriba el titulo aquí"
+            />
+
+            {/* Añadir autor o autores */}
+            <MyTextInput
+              name="autor"
+              classNameLabel="font-bold text-2xl  block"
+              label="Añadir autor o autores"
+              classNameInput={`bg-gris-claro block p-4  rounded-l-full rounded-t-full w-full border-2 ${
+                errors.autor && touched.autor ? "border-rose-600" : ""
+              }`}
+              placeholder="Escriba el nombre del autor aquí"
+            />
+
+            {/* Añadir enunciado  */}
+            <MyTextarea
+              maxLength={160}
+              name="enunciado"
+              classNameLabel="font-bold text-2xl  block"
+              label="Añadir enunciado"
+              classNameInput={`bg-gris-claro  rounded-lg block p-4   w-full border-2 ${
+                errors.enunciado && touched.enunciado ? "border-rose-600" : ""
+              }`}
+              placeholder="Escriba su enunciado aquí con no mas de 160 caracteres"
+            />
+
+            {/* Añadir resumen  */}
+            <MyTextarea
+              name="resumen"
+              classNameLabel="font-bold text-2xl  block"
+              label="Añadir resumen"
+              classNameInput={`bg-gris-claro  rounded-lg block p-4   w-full border-2 ${
+                errors.resumen && touched.resumen ? "border-rose-600" : ""
+              }`}
+              placeholder="Escriba su resumen aquí con no mas de 150 palabras"
+            />
+
+            {/* Etiqueta de nivel educativo */}
+
+            <h1 className="font-bold text-2xl my-2">
+              Etiqueta de nivel educativo
+            </h1>
             <div
-              className={`bg-gris-claro  rounded-lg  p-40 flex items-center justify-center  border-2 ${
-                errors.image && touched.image ? "border-rose-600" : ""
+              className={`rounded-lg flex flex-wrap gap-6 p-4 ${
+                errors.etiquetas && touched.etiquetas
+                  ? " border-2 border-rose-600"
+                  : ""
               }`}
             >
-              <Image
-                src={"/vector.svg"}
-                alt="preview"
-                width={80}
-                height={80}
-              />
+              {etiquetas.map((e) => (
+                <MyCheckbox
+                  classNameInput="hidden peer"
+                  classNameLabel={`  peer-checked:bg-red-600`}
+                  classNameDiv=" inline bg-gris-claro rounded-l-full rounded-t-full p-2 peer-checked:border-2  peer-checked:border-black text-lg"
+                  key={e}
+                  label={e}
+                  name={"etiquetas"}
+                  value={e}
+                  checked={values.etiquetas.includes(e)}
+                />
+              ))}
             </div>
-          )}
-          {errors.image && touched.image && (
+            {errors.etiquetas && touched.etiquetas && (
+              <h1 className="text-red-600 text-center text-xs italic  my-1">
+                {errors.etiquetas}
+              </h1>
+            )}
+
+            {/* Etiqueta de seccion*/}
+            <h1 className="font-bold text-2xl my-2">Etiqueta de sección</h1>
+            <div
+              className={`flex flex-wrap  gap-8  p-2  rounded-lg ${
+                errors.secciones && touched.secciones
+                  ? " border-2 border-rose-600"
+                  : ""
+              }`}
+            >
+              {secciones.map((e) => (
+                <MyCheckbox
+                  classNameInput="hidden peer"
+                  classNameLabel={` peer-checked:bg-red-600`}
+                  classNameDiv="inline bg-white  border-2  border-azul-claro text-azul-claro font-bold rounded-l-full rounded-t-full p-2 peer-checked:bg-blue-100  text-lg"
+                  key={e}
+                  label={e}
+                  name={"secciones"}
+                  value={e}
+                  checked={values.secciones.includes(e)}
+                />
+              ))}
+            </div>
+            {errors.secciones && touched.secciones && (
+              <h1 className="text-red-600 text-center text-xs italic  my-1">
+                {errors.secciones}
+              </h1>
+            )}
+            {/* Añadir palabras claves  */}
+            <MyTextarea
+              maxLength={160}
+              name="palabrasclaves"
+              classNameLabel="font-bold text-2xl  block"
+              label="Añadir palabras claves"
+              classNameInput={`bg-gris-claro  rounded-lg block p-4   w-full border-2 ${
+                errors.palabrasclaves && touched.palabrasclaves
+                  ? "border-rose-600"
+                  : ""
+              }`}
+              placeholder="Palabras claves"
+            />
+
+            {/* Añadir fecha publicacion  */}
+            <MyDateInput
+              label="Fecha de publicación"
+              type="date"
+              classNameLabel="font-bold text-2xl  block"
+              name="fecha"
+              classNameInput={`bg-gris-claro  rounded-lg block p-4   w-full border-2 ${
+                errors.fecha && touched.fecha ? "border-rose-600" : ""
+              }`}
+            />
+
+            <button ref={publishButtonRef} className="hidden">
+              Cuba
+            </button>
+          </form>
+        )}
+      </Formik>
+      <div className="grid items-center w-10/12">
+        <div>
+          {/* Añadir contenido  */}
+          <h1 className="font-bold text-2xl my-2 mx-2">Añadir contenido</h1>
+          <div className={error ? " border-2 border-rose-600" : ""}>
+            <Editor2
+              key={editorKey}
+              setContenido={setContenido}
+              setContent_html={setContent_html}
+              contenido={initialValues.contenido}
+            />
+          </div>
+          {error && (
             <h1 className="text-red-600 text-center text-xs italic  my-1">
-              {errors.image}
+              Revise el contenido
             </h1>
           )}
-          <button
-            className="bg-azul-claro p-2 flex justify-center items-center rounded my-2"
-            type="button"
-            onClick={() => {
-              if (imageRef.current) {
-                imageRef.current.click();
-              }
-            }}
-          >
-            Upload
-          </button>
-        </div> */}
+        </div>
+      </div>
 
-        {/* Añadir titulo */}
-        <MyTextInput
-          name="titulo"
-          classNameLabel="font-bold text-2xl  block"
-          label="Añadir titulo"
-          classNameInput={`bg-gris-claro block p-4  rounded-l-full rounded-t-full w-full border-2 ${
-            errors.titulo && touched.titulo ? "border-rose-600" : ""
-          }`}
-          placeholder="Escriba el titulo aquí"
-        />
-
-        {/* Añadir autor o autores */}
-        <MyTextInput
-          name="autor"
-          classNameLabel="font-bold text-2xl  block"
-          label="Añadir autor o autores"
-          classNameInput={`bg-gris-claro block p-4  rounded-l-full rounded-t-full w-full border-2 ${
-            errors.autor && touched.autor ? "border-rose-600" : ""
-          }`}
-          placeholder="Escriba el nombre del autor aquí"
-        />
-
-        {/* Añadir enunciado  */}
-        <MyTextarea
-          maxLength={160}
-          name="enunciado"
-          classNameLabel="font-bold text-2xl  block"
-          label="Añadir enunciado"
-          classNameInput={`bg-gris-claro  rounded-lg block p-4   w-full border-2 ${
-            errors.enunciado && touched.enunciado ? "border-rose-600" : ""
-          }`}
-          placeholder="Escriba su enunciado aquí con no mas de 160 caracteres"
-        />
-
-        {/* Añadir resumen  */}
-        <MyTextarea
-          name="resumen"
-          classNameLabel="font-bold text-2xl  block"
-          label="Añadir resumen"
-          classNameInput={`bg-gris-claro  rounded-lg block p-4   w-full border-2 ${
-            errors.resumen && touched.resumen ? "border-rose-600" : ""
-          }`}
-          placeholder="Escriba su resumen aquí con no mas de 150 palabras"
-        />
-
-        {/* Etiqueta de nivel educativo */}
-
-        <h1 className="font-bold text-2xl my-2">
-          Etiqueta de nivel educativo
-        </h1>
-        <div
-          className={`rounded-lg flex flex-wrap gap-6 p-4 ${
-            errors.etiquetas && touched.etiquetas
-              ? " border-2 border-rose-600"
-              : ""
-          }`}
+      {/*Botones salvar y publicar*/}
+      <div className="grid items-center w-10/12 my-4">
+        <button
+          onClick={handleCubaButtonClick}
+          type="submit"
+          className="  bg-azul-claro rounded-lg text-lg text-white px-8 py-2 "
         >
-          {etiquetas.map((e) => (
-            <MyCheckbox
-              classNameInput="hidden peer"
-              classNameLabel={`  peer-checked:bg-red-600`}
-              classNameDiv=" inline bg-gris-claro rounded-l-full rounded-t-full p-2 peer-checked:border-2  peer-checked:border-black text-lg"
-              key={e}
-              label={e}
-              name={"etiquetas"}
-              value={e}
-            />
-          ))}
-        </div>
-        {errors.etiquetas && touched.etiquetas && (
-          <h1 className="text-red-600 text-center text-xs italic  my-1">
-            {errors.etiquetas}
-          </h1>
-        )}
+          Publicar
+        </button>
+      </div>
+    </>
+  );
+};
 
-        {/* Etiqueta de seccion*/}
-        <h1 className="font-bold text-2xl my-2">Etiqueta de sección</h1>
-        <div
-          className={`flex flex-wrap  gap-8  p-2  rounded-lg ${
-            errors.secciones && touched.secciones
-              ? " border-2 border-rose-600"
-              : ""
-          }`}
-        >
-          {secciones.map((e) => (
-            <MyCheckbox
-              classNameInput="hidden peer"
-              classNameLabel={`  peer-checked:bg-red-600`}
-              classNameDiv="inline bg-white  border-2  border-azul-claro text-azul-claro font-bold rounded-l-full rounded-t-full p-2 peer-checked:bg-blue-100  text-lg"
-              key={e}
-              label={e}
-              name={"secciones"}
-              value={e}
-            />
-          ))}
-        </div>
-        {errors.secciones && touched.secciones && (
-          <h1 className="text-red-600 text-center text-xs italic  my-1">
-            {errors.secciones}
-          </h1>
-        )}
-        {/* Añadir palabras claves  */}
-        <MyTextarea
-          maxLength={160}
-          name="palabrasclaves"
-          classNameLabel="font-bold text-2xl  block"
-          label="Añadir palabras claves"
-          classNameInput={`bg-gris-claro  rounded-lg block p-4   w-full border-2 ${
-            errors.palabrasclaves && touched.palabrasclaves
-              ? "border-rose-600"
-              : ""
-          }`}
-          placeholder="Palabras claves"
-        />
-
-        {/* Añadir contenido  */}
-        <h1 className="font-bold text-2xl my-2">Añadir contenido</h1>
-
-        <div
-          className={` ${
-            errors.contenido && touched.contenido
-              ? " border-2 border-rose-600"
-              : ""
-          }`}
-        >
-          <div className="border rounded-md">
-            <Editor2 />
-          </div>
-        </div>
-        {errors.contenido && touched.contenido && (
-          <h1 className="text-red-600 text-center text-xs italic  my-1">
-            {errors.contenido}
-          </h1>
-        )}
-
-        {/*Botones salvar y publicar*/}
-        <div className="flex gap-4 justify-between">
-          <button
-            type="submit"
-            className="  bg-gris-claro rounded-lg text-lg text-white px-8 py-2  "
-          >
-            Guardar
-          </button>
-          <button
-            type="submit"
-            className="  bg-azul-claro rounded-lg text-lg text-white px-8 py-2  "
-          >
-            Enviar
-          </button>
-        </div>
-      </form>
-    )}
-  </Formik>
-  )
-}
-
-export default ArticuloForm
+export default ArticuloForm;

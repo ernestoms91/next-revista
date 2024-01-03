@@ -14,8 +14,6 @@ const AdminUser = () => {
   const [userEdit, setUserEdit] = useState<user>();
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const { data: session, status } = useSession();
-  console.log(session)
 
   const getUsers = async () => {
     try {
@@ -56,7 +54,6 @@ const AdminUser = () => {
 
   return (
     <div className="w-full mt-5 overflow-x-auto">
-      <code>{JSON.stringify(session, null, 2)}</code>
       <h1 className="text-3xl my-2 text-center"> Gestionar usuarios</h1>
       <div className=" overflow-x-auto rounded-lg mx-2 my-5 ">
         <AddUser

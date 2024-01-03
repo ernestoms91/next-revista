@@ -1,4 +1,4 @@
-import { ErrorMessage, Field, useField } from 'formik';
+import { ErrorMessage, Field, useField, useFormikContext } from 'formik';
 
 interface Props {
     label: string;
@@ -7,6 +7,7 @@ interface Props {
     classNameLabel?: string;
     classNameInput?: string;
     classNameDiv?: string;
+    checked?: boolean;
     [x: string]: any;
 }
 
@@ -15,10 +16,13 @@ export const MyCheckbox = ({ value, label, classNameLabel, classNameDiv, ...prop
 
     const [field] = useField({ ...props, type: 'checkbox' });
 
+
+    
     return (
         <div>
             <label className={classNameLabel}>
-                <Field type="checkbox" className={props.classNameInput} name={props.name} value={value} />
+                <Field type="checkbox" className={props.classNameInput} name={props.name} value={value} 
+ />
                 <div className={classNameDiv}> {label}</div>
             </label>
             {/* <label htmlFor={ props.id || props.name }>
