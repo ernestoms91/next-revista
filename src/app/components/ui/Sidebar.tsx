@@ -6,7 +6,9 @@ import { useState } from "react";
 import { IoPeopleSharp } from "react-icons/io5";
 import { TfiWrite } from "react-icons/tfi";
 import { MdOutlineArticle } from "react-icons/md";
+import { RiSpeakLine } from "react-icons/ri";
 import { signOut, useSession } from "next-auth/react";
+import { SiPodcastindex } from "react-icons/si";
 import { CiLogout } from "react-icons/ci";
 
 const Sidebar = () => {
@@ -15,6 +17,8 @@ const Sidebar = () => {
     { title: "Author",  icon:  <IoPeopleSharp size={50} color="bg-azul-oscuro" /> , link : "/admin/autores"},
     { title: "Usuarios", icon: <TfiWrite size={45} color="bg-azul-oscuro" />, link :"/admin/usuarios" },
     { title: "Articulos", icon: <MdOutlineArticle size={50} color="bg-azul-oscuro" />, link :"/admin/articulos" },
+    { title: "Entrevista", icon: <RiSpeakLine size={50} color="bg-azul-oscuro" />, link :"/admin/entrevistas" },
+    // { title: "Podcast", icon: <SiPodcastindex size={50} color="bg-azul-oscuro" />, link :"/admin/entrevistas" },
   ];
 
   return (
