@@ -4,6 +4,7 @@ import { newAuthorSchema } from "@/app/lib/helpers/yupSchemaAuthorForm";
 import Image from "next/image";
 import { CustomizedFooter } from "../components/ui/CustomizedFooter";
 import { autores } from "../lib/autor-data";
+import SlickSlider from "../components/about/SlickSlider";
 
 export default function AboutPage() {
   return (
@@ -20,13 +21,13 @@ export default function AboutPage() {
           para adaptarnos a los cambios culturales de nuestro tiempo e impulsar
           la necesaria transformación de las escuelas.
         </p>
-        <div className="p-2 border-2 border-l-0 border-r-0 border-gris-oscuro  my-2">
+        <div className="p-2 border-2 border-l-0 border-r-0 border-gris-oscuro p-8">
           <h1 className="text-5xl text-gris-oscuro my-4 mx-4">
             Equipo de realización{" "}
           </h1>
-          <AutorSlider />
+          <SlickSlider/>
         </div>
-
+  
         {/* Autores buqueda*/}
         <h1 className="text-5xl text-gris-oscuro my-4 mx-4">Autores</h1>
         <div className="flex ">
@@ -44,18 +45,19 @@ export default function AboutPage() {
             placeholder="Busca lo que quieras"
           />
         </div>
-        <div className="my-5 grid md:grid-cols-3 lg:grid-cols-4 justify-between gap-5">
+        <div className="my-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-between gap-5">
           {
            autores.map( a =>( <div className={`rounded-lg `}>
             <Image
               src={a.imagen}
               alt={a.nombre}
               className="rounded-t-xl"
-              width={275}
-              height={275}
+              objectFit="fill"
+              width={1280}
+              height={720}
               priority
             />
-            <div className="bg-gris-card w-[275px] px-2">
+            <div className="bg-gris-card  px-2">
               <p className="text-xl font-bold text-gris-oscuro">
                 {a.nombre}
               </p>

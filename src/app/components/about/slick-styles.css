@@ -1,0 +1,11 @@
+/* slick-styles.css */
+
+.slick-slide {
+    margin: 0 20px;
+  }
+  
+  .slick-list {
+    margin: 0 -20px;
+  }
+  
+  /* import '@/app/components/about/slick-styles.css' */
