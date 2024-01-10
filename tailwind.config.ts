@@ -19,6 +19,7 @@ const config: Config = {
       colors: {
         'gris-oscuro':'#474747',
         'gris-claro':'#CBCBCB',
+        'gris-bienclaro':'#878787',
         'gris-claro2':'#E5E5E5',
         'gris-medio':'#8C8C8C',
         'gris-claro3':'#F2F2F2',

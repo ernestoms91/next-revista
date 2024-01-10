@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import SessionAuthProvider from '@/app/context/SessionAuthProvider'
 import { Roboto } from "next/font/google";
 import "./globals.css";
-const roboto = Roboto({ subsets: ["latin"], weight: "400", style: "normal" });
+const roboto = Roboto({ subsets: ["latin"], weight: ["400","700"], style: "normal" });
 
 export const metadata: Metadata = {
   title: "Revista App",
